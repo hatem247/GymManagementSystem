@@ -1,0 +1,40 @@
+﻿<Page x:Class="GymManagementSystem.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#FF1F1F1F">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Source="Images/back.png" Grid.Row="0" Width="15" Height="15" 
+               HorizontalAlignment="Left" VerticalAlignment="Top"
+               MouseLeftButtonDown="Back_Click"/>
+        <Image Source="Images/logo.png" Grid.Row="1" Height="50" Width="50" Margin="120, 0, 0, 0"
+          HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Width="300">     
+            <TextBlock Text="Welcome, Admin" FontSize="26" Foreground="White" HorizontalAlignment="Center" Margin="0 0 0 30"/>
+
+            <Button Content="📷 Scan Barcode"
+                    Background="#FF2196F3" Foreground="White" FontSize="16"
+                    Padding="10" Margin="10" Click="ScanBarcode_Click" />
+
+            <Button Content="➕ Add New Client" 
+                    Background="#FF4CAF50" Foreground="White" FontSize="16"
+                    Padding="10" Margin="10" Click="AddClient_Click" />
+
+            <Button Content="# Logs" 
+                    Background="Chocolate" Foreground="White" FontSize="16"
+                    Padding="10" Margin="10" Click="Logs_Click" />
+
+            <Button Content="$ Income" 
+                    Background="#FF4CAF50" Foreground="White" FontSize="16"
+                    Padding="10" Margin="10" Click="Income_Click" />
+
+            <Button Content="View Clients" Click="ViewClients_Click"
+        Background="#FF2196F3" Foreground="White" Padding="10" Margin="10"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
