@@ -30,9 +30,6 @@
                 <TextBlock Text="Full Name" Foreground="White"/>
                 <TextBox x:Name="FullNameBox" Margin="0 5 0 10"/>
 
-                <TextBlock Text="Age" Foreground="White"/>
-                <TextBox x:Name="AgeBox" Margin="0 5 0 10"/>
-
                 <TextBlock Text="Phone Number" Foreground="White"/>
                 <TextBox x:Name="PhoneNumberBox" Margin="0 5 0 10"/>
 
@@ -40,14 +37,18 @@
                 <TextBlock Text="Weight (kg)" Foreground="White"/>
                 <TextBox x:Name="WeightBox" Margin="0 5 0 10"/>
 
-                <TextBlock Text="Height (cm)" Foreground="White"/>
-                <TextBox x:Name="HeightBox" Margin="0 5 0 10"/>
-
                 <TextBlock Text="Subscription Bundle" Foreground="White"/>
                 <ComboBox x:Name="BundleBox" Margin="0 5 0 20">
                     <ComboBoxItem Content="15 Days"/>
                     <ComboBoxItem Content="1 Month"/>
                     <ComboBoxItem Content="3 Months"/>
+                    <ComboBoxItem Content="6 Months"/>
+                </ComboBox>
+                
+                <TextBlock Text="Subscription Type" Foreground="White"/>
+                <ComboBox x:Name="SubscipriontypeBox" Margin="0 5 0 20">
+                    <ComboBoxItem Content="Gym only"/>
+                    <ComboBoxItem Content="Gym and cardio"/>
                 </ComboBox>
 
                 <Button Content="Save Client" Click="SaveClient_Click"

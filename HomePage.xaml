@@ -11,7 +11,7 @@
         <Image Source="Images/back.png" Grid.Row="0" Width="15" Height="15" 
                HorizontalAlignment="Left" VerticalAlignment="Top"
                MouseLeftButtonDown="Back_Click"/>
-        <Image Source="Images/logo.png" Grid.Row="1" Height="50" Width="50" Margin="120, 0, 0, 0"
+        <Image Source="Images/logo.jpg" Grid.Row="1" Height="50" Width="50" Margin="120, 0, 0, 0"
           HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <StackPanel HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Width="300">     
             <TextBlock Text="Welcome, Admin" FontSize="26" Foreground="White" HorizontalAlignment="Center" Margin="0 0 0 30"/>

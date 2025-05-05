@@ -21,10 +21,8 @@ namespace GymManagementSystem
         private void DisplayClientInfo()
         {
             txtName.Text = client.FullName;
-            txtAge.Text = client.Age.ToString();
             txtPhone.Text = client.PhoneNumber;
             txtWeight.Text = client.Weight.ToString("F1");
-            txtHeight.Text = client.Height.ToString("F1");
             txtSubscription.Text = client.SubscriptionType;
             txtStart.Text = client.SubscriptionStart.ToShortDateString();
             txtEnd.Text = client.SubscriptionEnd.ToShortDateString();

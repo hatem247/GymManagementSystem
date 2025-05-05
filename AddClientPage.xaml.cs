@@ -19,9 +19,8 @@ namespace GymManagementSystem
         private void SaveClient_Click(object sender, RoutedEventArgs e)
         {
             // Validate the input fields
-            if (string.IsNullOrEmpty(FullNameBox.Text) || string.IsNullOrEmpty(AgeBox.Text) ||
-                string.IsNullOrEmpty(WeightBox.Text) || string.IsNullOrEmpty(HeightBox.Text) ||
-                BundleBox.SelectedItem == null)
+            if (string.IsNullOrEmpty(FullNameBox.Text) || string.IsNullOrEmpty(WeightBox.Text) 
+                || BundleBox.SelectedItem == null || SubscipriontypeBox.SelectedItem == null || string.IsNullOrEmpty(PhoneNumberBox.Text))
             {
                 StatusText.Text = "Please fill in all fields.";
                 StatusText.Foreground = System.Windows.Media.Brushes.Red;
@@ -29,22 +28,20 @@ namespace GymManagementSystem
             }
 
             string fullName = FullNameBox.Text;
-            string age = AgeBox.Text;
             string weight = WeightBox.Text;
-            string height = HeightBox.Text;
             string bundle = ((ComboBoxItem)BundleBox.SelectedItem)?.Content.ToString();
-            string phoneNumber = PhoneNumberBox.Text; // Get the phone number
+            string phoneNumber = PhoneNumberBox.Text;
+            string subscriptiontype = ((ComboBoxItem)SubscipriontypeBox.SelectedItem)?.Content.ToString();
 
-            ExcelHelper.AddClient(fullName, age, weight, height, bundle, phoneNumber);
-            ExcelHelper.AddIncomeEntry(Name, phoneNumber, bundle);
+            ExcelHelper.AddClient(fullName, weight, bundle, subscriptiontype, phoneNumber);
+            ExcelHelper.AddIncomeEntry(Name, phoneNumber, bundle + " " + subscriptiontype);
             StatusText.Text = "Client added successfully!";
 
-            // Generate and display the barcode
+            // Generate and display the barcode 
             GenerateBarcode(phoneNumber);
             FullNameBox.Clear();
-            AgeBox.Clear();
             WeightBox.Clear();
-            HeightBox.Clear();
+            PhoneNumberBox.Clear();
             BundleBox.SelectedIndex = -1;
         }
         private void GenerateBarcode(string phone)

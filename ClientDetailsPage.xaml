@@ -15,7 +15,7 @@
 
         <!-- Header icons -->
         <Grid Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Source="Images/logo.png" Width="30" Height="30" MouseLeftButtonDown="HomeIcon_Click"/>
+            <Image Source="Images/logo.jpg" Width="30" Height="30" MouseLeftButtonDown="HomeIcon_Click"/>
             <Image Source="Images/back.png" Width="30" Height="30" Margin="40,0,0,0" MouseLeftButtonDown="Back_Click"/>
         </Grid>
 
@@ -26,14 +26,10 @@
         <StackPanel Grid.Row="2" Margin="0,0,0,20">
             <TextBlock Text="Name:" Foreground="LightGray"/>
             <TextBlock x:Name="txtName" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Age:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtAge" FontWeight="Bold" Foreground="White"/>
             <TextBlock Text="Phone:" Foreground="LightGray"/>
             <TextBlock x:Name="txtPhone" FontWeight="Bold" Foreground="White"/>
             <TextBlock Text="Weight:" Foreground="LightGray"/>
             <TextBlock x:Name="txtWeight" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Height:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtHeight" FontWeight="Bold" Foreground="White"/>
             <TextBlock Text="Subscription Type:" Foreground="LightGray"/>
             <TextBlock x:Name="txtSubscription" FontWeight="Bold" Foreground="White"/>
             <TextBlock Text="Start Date:" Foreground="LightGray"/>
