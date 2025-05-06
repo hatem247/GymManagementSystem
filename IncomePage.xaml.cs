@@ -23,11 +23,30 @@ namespace GymManagementSystem
         public IncomePage()
         {
             InitializeComponent();
-            ExcelHelper.GetIncome();
+            LoadIncome("");
         }
+
+        private void LoadIncome(string filter)
+        {
+            var Income = ExcelHelper.GetIncome(filter);
+            IncomeDataGrid.ItemsSource = null;
+            IncomeDataGrid.ItemsSource = Income;
+        }
+
         private void Back_Click(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new HomePage());
+        }
+
+        private void IncomeFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(IncomeFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string filter = "";
+                if (IncomeFilterComboBox.SelectedIndex == -1) filter = "";
+                else filter = IncomeFilterComboBox.Text;
+                LoadIncome(filter);
+            }
         }
     }
 }

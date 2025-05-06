@@ -17,20 +17,18 @@
            HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
            MouseLeftButtonDown="Back_Click"/>
         <StackPanel Grid.Row="1">
-            <ComboBox x:Name="LogsFilterComboBox" Width="200" Margin="10">
+            <ComboBox x:Name="LogsFilterComboBox" Width="200" Margin="10" SelectionChanged="LogsFilterComboBox_SelectionChanged">
                 <ComboBoxItem Content="Today"/>
                 <ComboBoxItem Content="Yesterday"/>
                 <ComboBoxItem Content="Last Week"/>
                 <ComboBoxItem Content="Last Month"/>
-                <ComboBoxItem Content="Specific Date"/>
             </ComboBox>
             <DataGrid x:Name="LogsDataGrid" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                    <DataGridTextColumn Header="Hour" Binding="{Binding Hour}" />
-                    <DataGridTextColumn Header="Minute" Binding="{Binding Minute}" />
+                    <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

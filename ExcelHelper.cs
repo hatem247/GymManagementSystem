@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows;
+using System.Linq;
 
 namespace GymManagementSystem
 {
@@ -102,7 +103,7 @@ namespace GymManagementSystem
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error adding client: {ex.Message}");
+                MessageBox.Show($"Error adding client: {ex.Message}");
                 return false;
             }
         }
@@ -114,7 +115,7 @@ namespace GymManagementSystem
             FileInfo fileInfo = new FileInfo(excelPath);
             if (!fileInfo.Exists)
             {
-                Console.WriteLine($"File not found: {excelPath}");
+                MessageBox.Show($"File not found: {excelPath}");
                 return clients;
             }
 
@@ -125,7 +126,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return clients;
                     }
 
@@ -145,7 +146,7 @@ namespace GymManagementSystem
                         else
                         {
                             client.Weight = 0;
-                            Console.WriteLine($"Invalid weight format at row {row}. Setting weight to 0.");
+                            MessageBox.Show($"Invalid weight format at row {row}. Setting weight to 0.");
                         }
 
                         client.SubscriptionType = worksheet.Cells[row, 4].Value?.ToString() ?? "";
@@ -158,7 +159,7 @@ namespace GymManagementSystem
                         else
                         {
                             client.SubscriptionStart = DateTime.MinValue;
-                            Console.WriteLine($"Invalid start date format at row {row}. Setting start date to MinValue.");
+                            MessageBox.Show($"Invalid start date format at row {row}. Setting start date to MinValue.");
                         }
 
                         string endDateString = worksheet.Cells[row, 6].Value?.ToString();
@@ -169,7 +170,7 @@ namespace GymManagementSystem
                         else
                         {
                             client.SubscriptionEnd = DateTime.MinValue;
-                            Console.WriteLine($"Invalid end date format at row {row}. Setting end date to MinValue.");
+                            MessageBox.Show($"Invalid end date format at row {row}. Setting end date to MinValue.");
                         }
 
                         client.IsFrozen = worksheet.Cells[row, 7].Value?.ToString() == "Yes";
@@ -180,7 +181,7 @@ namespace GymManagementSystem
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading clients: {ex.Message}");
+                MessageBox.Show($"Error loading clients: {ex.Message}");
             }
 
             return clients;
@@ -193,7 +194,7 @@ namespace GymManagementSystem
                 FileInfo fileInfo = new FileInfo(excelPath);
                 if (!fileInfo.Exists)
                 {
-                    Console.WriteLine($"File not found: {excelPath}");
+                    MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
 
@@ -202,7 +203,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
 
@@ -216,13 +217,13 @@ namespace GymManagementSystem
                             return true;
                         }
                     }
-                    Console.WriteLine($"Client with phone number {client.PhoneNumber} not found for editing.");
+                    MessageBox.Show($"Client with phone number {client.PhoneNumber} not found for editing.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error editing client: {ex.Message}");
+                MessageBox.Show($"Error editing client: {ex.Message}");
                 return false;
             }
         }
@@ -234,7 +235,7 @@ namespace GymManagementSystem
                 FileInfo fileInfo = new FileInfo(excelPath);
                 if (!fileInfo.Exists)
                 {
-                    Console.WriteLine($"File not found: {excelPath}");
+                    MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
 
@@ -243,7 +244,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
 
@@ -257,13 +258,13 @@ namespace GymManagementSystem
                             return true;
                         }
                     }
-                    Console.WriteLine($"Client with phone number {phoneNumber} not found for deletion.");
+                    MessageBox.Show($"Client with phone number {phoneNumber} not found for deletion.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting client: {ex.Message}");
+                MessageBox.Show($"Error deleting client: {ex.Message}");
                 return false;
             }
         }
@@ -275,7 +276,7 @@ namespace GymManagementSystem
                 FileInfo fileInfo = new FileInfo(excelPath);
                 if (!fileInfo.Exists)
                 {
-                    Console.WriteLine($"File not found: {excelPath}");
+                    MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
 
@@ -284,7 +285,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
 
@@ -308,13 +309,13 @@ namespace GymManagementSystem
                             return true;
                         }
                     }
-                    Console.WriteLine($"Client with phone number {phoneNumber} not found for freezing.");
+                    MessageBox.Show($"Client with phone number {phoneNumber} not found for freezing.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error freezing client: {ex.Message}");
+                MessageBox.Show($"Error freezing client: {ex.Message}");
                 return false;
             }
         }
@@ -326,7 +327,7 @@ namespace GymManagementSystem
                 FileInfo fileInfo = new FileInfo(excelPath);
                 if (!fileInfo.Exists)
                 {
-                    Console.WriteLine($"File not found: {excelPath}");
+                    MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
 
@@ -335,7 +336,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
 
@@ -349,13 +350,13 @@ namespace GymManagementSystem
                             return true;
                         }
                     }
-                    Console.WriteLine($"Client with phone number {phoneNumber} not found for unfreezing.");
+                    MessageBox.Show($"Client with phone number {phoneNumber} not found for unfreezing.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error unfreezing client: {ex.Message}");
+                MessageBox.Show($"Error unfreezing client: {ex.Message}");
                 return false;
             }
         }
@@ -367,7 +368,7 @@ namespace GymManagementSystem
                 FileInfo fileInfo = new FileInfo(excelPath);
                 if (!fileInfo.Exists)
                 {
-                    Console.WriteLine($"File not found: {excelPath}");
+                    MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
 
@@ -376,7 +377,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
 
@@ -407,19 +408,19 @@ namespace GymManagementSystem
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error auto-unfreezing clients: {ex.Message}");
+                MessageBox.Show($"Error auto-unfreezing clients: {ex.Message}");
                 return false;
             }
         }
 
-        public static bool RenewClientSubscription(string phoneNumber, string bundle)
+        public static bool RenewClientSubscription(string phoneNumber, string bundleDurition, string subscriptionType)
         {
             try
             {
                 FileInfo fileInfo = new FileInfo(excelPath);
                 if (!fileInfo.Exists)
                 {
-                    Console.WriteLine($"File not found: {excelPath}");
+                    MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
 
@@ -428,7 +429,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Clients' not found.");
+                        MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
 
@@ -439,7 +440,7 @@ namespace GymManagementSystem
                             DateTime newStartDate = DateTime.Today;
                             DateTime newEndDate;
 
-                            switch (bundle)
+                            switch (bundleDurition)
                             {
                                 case "15 Days":
                                     newEndDate = newStartDate.AddDays(15);
@@ -450,11 +451,15 @@ namespace GymManagementSystem
                                 case "3 Months":
                                     newEndDate = newStartDate.AddMonths(3);
                                     break;
+                                case "6 Months":
+                                    newEndDate = newStartDate.AddMonths(6);
+                                    break;
                                 default:
                                     newEndDate = newStartDate;
                                     break;
                             }
 
+                            worksheet.Cells[row, 4].Value = bundleDurition + " " + subscriptionType;
                             worksheet.Cells[row, 5].Value = newStartDate.ToShortDateString();
                             worksheet.Cells[row, 6].Value = newEndDate.ToShortDateString();
                             worksheet.Cells[row, 7].Value = "No";
@@ -462,13 +467,13 @@ namespace GymManagementSystem
                             return true;
                         }
                     }
-                    Console.WriteLine($"Client with phone number {phoneNumber} not found for renewal.");
+                    MessageBox.Show($"Client with phone number {phoneNumber} not found for renewal.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error renewing client subscription: {ex.Message}");
+                MessageBox.Show($"Error renewing client subscription: {ex.Message}");
                 return false;
             }
         }
@@ -489,16 +494,14 @@ namespace GymManagementSystem
                         worksheet.Cells[1, 1].Value = "Name";
                         worksheet.Cells[1, 2].Value = "Phone";
                         worksheet.Cells[1, 3].Value = "Date";
-                        worksheet.Cells[1, 4].Value = "Hour";
-                        worksheet.Cells[1, 5].Value = "Minute";
+                        worksheet.Cells[1, 4].Value = "Time";
                     }
 
                     DateTime now = DateTime.Now;
                     worksheet.Cells[row, 1].Value = name;
                     worksheet.Cells[row, 2].Value = phone;
                     worksheet.Cells[row, 3].Value = now.ToShortDateString();
-                    worksheet.Cells[row, 4].Value = now.Hour;
-                    worksheet.Cells[row, 5].Value = now.Minute;
+                    worksheet.Cells[row, 4].Value = now.ToString("hh:mm:ss tt");
 
                     package.Save();
                     return true;
@@ -506,7 +509,7 @@ namespace GymManagementSystem
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error adding log entry: {ex.Message}");
+                MessageBox.Show($"Error adding log entry: {ex.Message}");
                 return false;
             }
         }
@@ -527,9 +530,8 @@ namespace GymManagementSystem
                         worksheet.Cells[1, 1].Value = "Name";
                         worksheet.Cells[1, 2].Value = "Phone";
                         worksheet.Cells[1, 3].Value = "Date";
-                        worksheet.Cells[1, 4].Value = "Hour";
-                        worksheet.Cells[1, 5].Value = "Minute";
-                        worksheet.Cells[1, 6].Value = "Amount";
+                        worksheet.Cells[1, 4].Value = "Time";
+                        worksheet.Cells[1, 5].Value = "Amount";
                     }
 
                     DateTime now = DateTime.Now;
@@ -538,9 +540,8 @@ namespace GymManagementSystem
                     worksheet.Cells[row, 1].Value = name;
                     worksheet.Cells[row, 2].Value = phone;
                     worksheet.Cells[row, 3].Value = now.ToShortDateString();
-                    worksheet.Cells[row, 4].Value = now.Hour;
-                    worksheet.Cells[row, 5].Value = now.Minute;
-                    worksheet.Cells[row, 6].Value = amount;
+                    worksheet.Cells[row, 4].Value = now.ToString("hh:mm:ss tt");
+                    worksheet.Cells[row, 5].Value = amount;
 
                     package.Save();
                     return true;
@@ -548,8 +549,38 @@ namespace GymManagementSystem
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error adding income entry: {ex.Message}");
+                MessageBox.Show($"Error adding income entry: {ex.Message}");
                 return false;
+            }
+        }
+
+        public static (DateTime start, DateTime end) GetDateRange(string filter)
+        {
+            var today = DateTime.Today;
+
+            switch (filter)
+            {
+                case "Today":
+                    return (today, today.AddDays(1).AddTicks(-1));
+
+                case "Yesterday":
+                    var yesterday = today.AddDays(-1);
+                    return (yesterday, today.AddTicks(-1));
+
+                case "Last Week":
+                    var firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+                    var daysToSubtract = (int)today.DayOfWeek - (int)firstDayOfWeek - 7;
+                    var lastWeekStart = today.AddDays(daysToSubtract);
+                    var lastWeekEnd = lastWeekStart.AddDays(7).AddTicks(-1);
+                    return (lastWeekStart, lastWeekEnd);
+
+                case "Last Month":
+                    var lastMonthStart = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
+                    var lastMonthEnd = new DateTime(today.Year, today.Month, 1).AddTicks(-1);
+                    return (lastMonthStart, lastMonthEnd);
+
+                default:
+                    throw new ArgumentException("Invalid filter. Supported values are: Today, Yesterday, Last Week, Last Month.");
             }
         }
 
@@ -569,13 +600,13 @@ namespace GymManagementSystem
             }
         }
 
-        public static List<LogEntry> GetLogs()
+        public static List<LogEntry> GetLogs(string filter)
         {
             List<LogEntry> logs = new List<LogEntry>();
             FileInfo fileInfo = new FileInfo(excelPath);
             if (!fileInfo.Exists)
             {
-                Console.WriteLine($"Log file not found: {excelPath}");
+                MessageBox.Show($"Log file not found: {excelPath}");
                 return logs;
             }
 
@@ -586,7 +617,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Logs"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Logs' not found.");
+                        MessageBox.Show("Worksheet 'Logs' not found.");
                         return logs;
                     }
 
@@ -598,26 +629,37 @@ namespace GymManagementSystem
                             Name = worksheet.Cells[row, 1].Text,
                             Phone = worksheet.Cells[row, 2].Text,
                             Date = worksheet.Cells[row, 3].Text,
-                            Hour = worksheet.Cells[row, 4].Text,
-                            Minute = worksheet.Cells[row, 5].Text
+                            Time = worksheet.Cells[row, 4].Text
                         });
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting logs: {ex.Message}");
+                MessageBox.Show($"Error getting logs: {ex.Message}");
             }
-            return logs;
+            if(filter == "") return logs;
+            else
+            {
+                var (start, end) = GetDateRange(filter);
+                return logs.Where(i =>
+                {
+                    if (DateTime.TryParse(i.Date, out DateTime parsedDate))
+                    {
+                        return parsedDate >= start && parsedDate <= end;
+                    }
+                    return false;
+                }).ToList();
+            }
         }
 
-        public static List<IncomeEntry> GetIncome()
+        public static List<IncomeEntry> GetIncome(string filter)
         {
             List<IncomeEntry> incomes = new List<IncomeEntry>();
             FileInfo fileInfo = new FileInfo(excelPath);
             if (!fileInfo.Exists)
             {
-                Console.WriteLine($"Income file not found: {excelPath}");
+                MessageBox.Show($"Excel file not found: {excelPath}");
                 return incomes;
             }
 
@@ -628,7 +670,7 @@ namespace GymManagementSystem
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Income"];
                     if (worksheet == null)
                     {
-                        Console.WriteLine("Worksheet 'Income' not found.");
+                        MessageBox.Show("Worksheet 'Income' not found.");
                         return incomes;
                     }
 
@@ -640,18 +682,32 @@ namespace GymManagementSystem
                             Name = worksheet.Cells[row, 1].Text,
                             Phone = worksheet.Cells[row, 2].Text,
                             Date = worksheet.Cells[row, 3].Text,
-                            Hour = worksheet.Cells[row, 4].Text,
-                            Minute = worksheet.Cells[row, 5].Text,
-                            Amount = worksheet.Cells[row, 6].Text
+                            Time = worksheet.Cells[row, 4].Text,
+                            Amount = worksheet.Cells[row, 5].Text
                         });
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error getting income: {ex.Message}");
+                MessageBox.Show($"Error getting income: {ex.Message}");
             }
-            return incomes;
+            if(filter == "")
+            {
+                return incomes;
+            }
+            else
+            {
+                var (start, end) = GetDateRange(filter);
+                return incomes.Where(i =>
+                {
+                    if (DateTime.TryParse(i.Date, out DateTime parsedDate))
+                    {
+                        return parsedDate >= start && parsedDate <= end;
+                    }
+                    return false;
+                }).ToList();
+            }
         }
     }
 }

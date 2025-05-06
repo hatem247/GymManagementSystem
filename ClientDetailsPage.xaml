@@ -44,8 +44,8 @@
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
             <Button x:Name="btnEdit" Content="Edit" Width="80" Margin="5" Click="EditButton_Click"/>
             <Button x:Name="btnFreeze" Content="Freeze" Width="80" Margin="5" Click="FreezeButton_Click"/>
-            <Button x:Name="btnRenew" Content="Renew Bundle" Width="120" Margin="5" />
-            <Button x:Name="btnDelete" Content="Delete" Width="80" Margin="5"/>
+            <Button x:Name="btnRenew" Content="Renew Bundle" Width="120" Margin="5" Click="btnRenew_Click"/>
+            <Button x:Name="btnDelete" Content="Delete" Width="80" Margin="5" Click="DeleteButton_Click"/>
         </StackPanel>
 
         <!-- Logs DataGrid -->
@@ -59,11 +59,11 @@
                   GridLinesVisibility="Horizontal"
                   Margin="0,10,0,0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
-                <DataGridTextColumn Header="Action" Binding="{Binding Action}" Width="*"/>
-                <DataGridTextColumn Header="Details" Binding="{Binding Details}" Width="2*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </Page>

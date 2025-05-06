@@ -157,6 +157,9 @@
     <Compile Include="LogsPage.xaml.cs">
       <DependentUpon>LogsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RenewBundleDialog.xaml.cs">
+      <DependentUpon>RenewBundleDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScanBarcodePage.xaml.cs">
       <DependentUpon>ScanBarcodePage.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="RenewBundleDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ScanBarcodePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

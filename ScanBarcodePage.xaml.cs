@@ -41,8 +41,8 @@ namespace GymManagementSystem
             Client client = ExcelHelper.search(barcode);
             if (client != null)
             {
-                NavigationService.Navigate(new ClientDetailsPage(client));
                 ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);
+                NavigationService.Navigate(new ClientDetailsPage(client));
                 txtBarcodeInput.Clear();
             }
             else

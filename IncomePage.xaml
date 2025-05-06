@@ -17,21 +17,19 @@
                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
                MouseLeftButtonDown="Back_Click"/>
         <StackPanel Grid.Row="1">
-            <Label x:Name="TotalIncomeLabel" Content="Total Income: 0 EGP" FontWeight="Bold" Margin="10"/>
-            <ComboBox x:Name="IncomeFilterComboBox" Width="200" Margin="10">
+            <Label x:Name="TotalIncomeLabel" Content="Today Income: 0 EGP" FontWeight="Bold" Margin="10"/>
+            <ComboBox x:Name="IncomeFilterComboBox" Width="200" Margin="10" SelectionChanged="IncomeFilterComboBox_SelectionChanged">
                 <ComboBoxItem Content="Today"/>
                 <ComboBoxItem Content="Yesterday"/>
                 <ComboBoxItem Content="Last Week"/>
                 <ComboBoxItem Content="Last Month"/>
-                <ComboBoxItem Content="Specific Date"/>
             </ComboBox>
             <DataGrid x:Name="IncomeDataGrid" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                    <DataGridTextColumn Header="Hour" Binding="{Binding Hour}" />
-                    <DataGridTextColumn Header="Minute" Binding="{Binding Minute}" />
+                    <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
                     <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" />
                 </DataGrid.Columns>
             </DataGrid>

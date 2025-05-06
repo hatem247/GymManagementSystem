@@ -23,11 +23,28 @@ namespace GymManagementSystem
         public LogsPage()
         {
             InitializeComponent();
-            ExcelHelper.GetLogs();
+            LoadLogs("");
         }
+
+        private void LoadLogs(string filter)
+        {
+            var Logs = ExcelHelper.GetLogs(filter);
+            LogsDataGrid.ItemsSource = null;
+            LogsDataGrid.ItemsSource = Logs;
+        }
+
         private void Back_Click(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new HomePage());
+        }
+
+        private void LogsFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LogsFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string filter = LogsFilterComboBox.SelectedIndex == -1 ? "" : selectedItem.Content.ToString();
+                LoadLogs(filter);
+            }
         }
     }
 }

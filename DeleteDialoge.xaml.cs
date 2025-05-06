@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GymManagementSystem
@@ -32,10 +33,17 @@ namespace GymManagementSystem
             Close();
         }
         
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             ExcelHelper.DeleteClient(phoneNumber);
             MessageBox.Show("Client deleted successfully");
+
+            NavigationWindow navigationWindow = Application.Current.MainWindow as NavigationWindow;
+            if (navigationWindow != null)
+            {
+                navigationWindow.Navigate(new HomePage());
+            }
+
             this.DialogResult = false;
             Close();
         }

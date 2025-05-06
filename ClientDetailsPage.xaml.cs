@@ -45,7 +45,7 @@ namespace GymManagementSystem
 
         private void LoadClientLogs(string phoneNumber)
         {
-            var logs = ExcelHelper.GetLogs();
+            var logs = ExcelHelper.GetLogs("");
             var filtered = logs.Where(l => l.Phone == phoneNumber).ToList();
             LogsDataGrid.ItemsSource = filtered;
         }
@@ -90,6 +90,21 @@ namespace GymManagementSystem
             if (deleteDialog.ShowDialog() == true)
             {
                 DisplayClientInfo();
+            }
+        }
+
+        private void btnRenew_Click(object sender, RoutedEventArgs e)
+        {
+            var renewDialog = new RenewBundleDialog();
+            if (renewDialog.ShowDialog() == true)
+            {
+                string selectedBundle = renewDialog.BundleBox.Text;
+                string selectedDuration = renewDialog.SubscipriontypeBox.Text;
+
+                ExcelHelper.RenewClientSubscription(client.PhoneNumber, selectedBundle, selectedDuration);
+                DisplayClientInfo();
+
+                MessageBox.Show($"Subscription renewed to {selectedBundle} for {selectedDuration} month(s).");
             }
         }
     }
