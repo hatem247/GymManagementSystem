@@ -22,7 +22,7 @@ namespace GymManagementSystem
         {
             using (var package = new ExcelPackage(new FileInfo(excelPath)))
             {
-                var sheet = package.Workbook.Worksheets[0];
+                var sheet = package.Workbook.Worksheets["Clients"];
                 for (int i = 2; i <= sheet.Dimension.End.Row; i++)
                 {
                     string phone = sheet.Cells[i, 2].Text;
@@ -41,10 +41,10 @@ namespace GymManagementSystem
                         return client;
                     }
                 }
-                MessageBox.Show("Client not found.");
                 return null;
             }
         }
+
         public static bool AddClient(string fullName, string weight, string bundle, string subsciptionType, string phoneNumber)
         {
             try
@@ -186,7 +186,6 @@ namespace GymManagementSystem
             return clients;
         }
 
-
         public static bool EditClient(Client client)
         {
             try
@@ -228,7 +227,6 @@ namespace GymManagementSystem
             }
         }
 
-
         public static bool DeleteClient(string phoneNumber)
         {
             try
@@ -269,7 +267,6 @@ namespace GymManagementSystem
                 return false;
             }
         }
-
 
         public static bool FreezeClient(string phoneNumber, int freezeDays)
         {
@@ -322,7 +319,6 @@ namespace GymManagementSystem
             }
         }
 
-
         public static bool UnfreezeClient(string phoneNumber)
         {
             try
@@ -363,7 +359,6 @@ namespace GymManagementSystem
                 return false;
             }
         }
-
 
         public static bool AutoUnfreezeClients()
         {
@@ -416,7 +411,6 @@ namespace GymManagementSystem
                 return false;
             }
         }
-
 
         public static bool RenewClientSubscription(string phoneNumber, string bundle)
         {
@@ -479,7 +473,6 @@ namespace GymManagementSystem
             }
         }
 
-
         public static bool AddLogEntry(string name, string phone)
         {
             try
@@ -517,7 +510,6 @@ namespace GymManagementSystem
                 return false;
             }
         }
-
 
         public static bool AddIncomeEntry(string name, string phone, string bundle)
         {
@@ -561,7 +553,6 @@ namespace GymManagementSystem
             }
         }
 
-
         private static int GetAmount(string bundle)
         {
             switch (bundle)
@@ -577,7 +568,6 @@ namespace GymManagementSystem
                 default: return 0;
             }
         }
-
 
         public static List<LogEntry> GetLogs()
         {
@@ -620,7 +610,6 @@ namespace GymManagementSystem
             }
             return logs;
         }
-
 
         public static List<IncomeEntry> GetIncome()
         {

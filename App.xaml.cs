@@ -11,7 +11,7 @@ namespace GymManagementSystem
             base.OnStartup(e);
             var navWindow = new NavigationWindow
             {
-                Source = new Uri("LoginPage.xaml", UriKind.Relative)
+                Source = new Uri("HomePage.xaml", UriKind.Relative)
             };
             navWindow.Show();
         }

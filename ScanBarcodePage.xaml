@@ -15,7 +15,7 @@
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Scan Barcode" FontSize="28" Foreground="White" FontWeight="Bold" Margin="0,0,0,20"/>
             <TextBox x:Name="txtBarcodeInput" Width="300" Height="40" FontSize="18"/>
-            <Button Content="Search Client" Width="150" Height="40" Margin="10" Click="SearchClient_Click"/>
+            <Button Content="Search Client" Width="150" KeyDown="TxtBarcodeInput_KeyDown" Height="40" Margin="10" Click="SearchClient_Click"/>
         </StackPanel>
     </Grid>
 </Page>

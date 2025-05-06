@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using OfficeOpenXml;
 
 namespace GymManagementSystem
 {
@@ -12,21 +10,51 @@ namespace GymManagementSystem
         public ScanBarcodePage()
         {
             InitializeComponent();
+
+            // Subscribe to the KeyDown event of the barcode input textbox
+            txtBarcodeInput.KeyDown += TxtBarcodeInput_KeyDown;
+        }
+
+        private void TxtBarcodeInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ProcessBarcode();
+            }
         }
 
         private void SearchClient_Click(object sender, RoutedEventArgs e)
         {
-            Client client = ExcelHelper.search(txtBarcodeInput.Text);
-            if(client != null)
+            ProcessBarcode();
+        }
+
+        private void ProcessBarcode()
+        {
+            string barcode = txtBarcodeInput.Text.Trim();
+
+            if (string.IsNullOrEmpty(barcode))
+            {
+                MessageBox.Show("Please scan a barcode or enter a phone number.");
+                return;
+            }
+
+            Client client = ExcelHelper.search(barcode);
+            if (client != null)
             {
                 NavigationService.Navigate(new ClientDetailsPage(client));
                 ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);
+                txtBarcodeInput.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Client not found.");
+                txtBarcodeInput.SelectAll();
             }
         }
+
         private void Back_Click(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new HomePage());
         }
-
     }
 }

@@ -34,7 +34,7 @@ namespace GymManagementSystem
             string subscriptiontype = ((ComboBoxItem)SubscipriontypeBox.SelectedItem)?.Content.ToString();
 
             ExcelHelper.AddClient(fullName, weight, bundle, subscriptiontype, phoneNumber);
-            ExcelHelper.AddIncomeEntry(Name, phoneNumber, bundle + " " + subscriptiontype);
+            ExcelHelper.AddIncomeEntry(fullName, phoneNumber, bundle + " " + subscriptiontype);
             StatusText.Text = "Client added successfully!";
 
             // Generate and display the barcode 
@@ -42,6 +42,7 @@ namespace GymManagementSystem
             FullNameBox.Clear();
             WeightBox.Clear();
             PhoneNumberBox.Clear();
+            SubscipriontypeBox.SelectedIndex = -1;
             BundleBox.SelectedIndex = -1;
         }
         private void GenerateBarcode(string phone)
@@ -49,17 +50,16 @@ namespace GymManagementSystem
             // Initialize the barcode writer from ZXing
             var barcodeWriter = new BarcodeWriter
             {
-                Format = BarcodeFormat.CODE_128, // You can choose other formats if needed
+                Format = BarcodeFormat.CODE_128,
                 Options = new ZXing.Common.EncodingOptions
                 {
-                    Height = 100, // Adjust the height of the barcode
-                    Width = 300   // Adjust the width of the barcode
+                    Height = 100,
+                    Width = 300
                 }
             };
 
             var barcodeBitmap = barcodeWriter.Write(phone);
             BarcodeImage.Source = ConvertBitmapToBitmapImage(barcodeBitmap);
-
         }
         public BitmapImage ConvertBitmapToBitmapImage(Bitmap bitmap)
         {
