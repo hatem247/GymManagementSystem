@@ -33,17 +33,21 @@ namespace GymManagementSystem
             string phoneNumber = PhoneNumberBox.Text;
             string subscriptiontype = ((ComboBoxItem)SubscipriontypeBox.SelectedItem)?.Content.ToString();
 
-            ExcelHelper.AddClient(fullName, weight, bundle, subscriptiontype, phoneNumber);
-            ExcelHelper.AddIncomeEntry(fullName, phoneNumber, bundle + " " + subscriptiontype);
-            StatusText.Text = "Client added successfully!";
+            if(ExcelHelper.AddClient(fullName, weight, bundle, subscriptiontype, phoneNumber))
+            {
+                ExcelHelper.AddIncomeEntry(fullName, phoneNumber, bundle + " " + subscriptiontype);
+                int total = ExcelHelper.GetAmount(bundle + " " + subscriptiontype);
+                StatusText.Text = $"Client added successfully!, Client has to pay {total} EGP";
 
-            // Generate and display the barcode 
-            GenerateBarcode(phoneNumber);
-            FullNameBox.Clear();
-            WeightBox.Clear();
-            PhoneNumberBox.Clear();
-            SubscipriontypeBox.SelectedIndex = -1;
-            BundleBox.SelectedIndex = -1;
+                // Generate and display the barcode 
+                GenerateBarcode(phoneNumber);
+                FullNameBox.Clear();
+                WeightBox.Clear();
+                PhoneNumberBox.Clear();
+                SubscipriontypeBox.SelectedIndex = -1;
+                BundleBox.SelectedIndex = -1;
+            }
+            
         }
         private void GenerateBarcode(string phone)
         {

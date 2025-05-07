@@ -28,8 +28,8 @@ namespace GymManagementSystem
 
         private void LoadLogs(string filter)
         {
-            var Logs = ExcelHelper.GetLogs(filter);
             LogsDataGrid.ItemsSource = null;
+            var Logs = ExcelHelper.GetLogs(filter);
             LogsDataGrid.ItemsSource = Logs;
         }
 
@@ -42,8 +42,7 @@ namespace GymManagementSystem
         {
             if (LogsFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
-                string filter = LogsFilterComboBox.SelectedIndex == -1 ? "" : selectedItem.Content.ToString();
-                LoadLogs(filter);
+                LoadLogs(LogsFilterComboBox.Text);
             }
         }
     }

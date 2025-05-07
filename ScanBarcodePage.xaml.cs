@@ -38,7 +38,7 @@ namespace GymManagementSystem
                 return;
             }
 
-            Client client = ExcelHelper.search(barcode);
+            Client client = ExcelHelper.Search(barcode);
             if (client != null)
             {
                 ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);

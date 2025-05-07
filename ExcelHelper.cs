@@ -12,14 +12,14 @@ namespace GymManagementSystem
 {
     public static class ExcelHelper
     {
-        private static string excelPath = "Sheet.xlsx";
+        public static string excelPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sheet.xlsx");
 
         static ExcelHelper()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
 
-        public static Client search(string phone_search)
+        public static Client Search(string phone_search)
         {
             using (var package = new ExcelPackage(new FileInfo(excelPath)))
             {
@@ -50,6 +50,12 @@ namespace GymManagementSystem
         {
             try
             {
+                Client client = Search(phoneNumber);
+                if (client != null)
+                {
+                    MessageBox.Show("This Phone number registered before");
+                    return false;
+                }
                 DateTime startDate = DateTime.Today;
                 DateTime endDate;
 
@@ -320,7 +326,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool UnfreezeClient(string phoneNumber)
+        public static bool AddExtraDays(string phoneNumber, int Days)
         {
             try
             {
@@ -345,6 +351,70 @@ namespace GymManagementSystem
                         var cellValue = worksheet.Cells[row, 2].Value?.ToString();
                         if (cellValue == phoneNumber)
                         {
+                            if (DateTime.TryParse(worksheet.Cells[row, 6].Value?.ToString(), out DateTime endDate))
+                            {
+                                endDate = endDate.AddDays(Days);
+                                worksheet.Cells[row, 6].Value = endDate.ToShortDateString();
+                            }
+                            else
+                            {
+                                worksheet.Cells[row, 6].Value = DateTime.Today.AddDays(Days).ToShortDateString();
+                            }
+                            package.Save();
+                            return true;
+                        }
+                    }
+                    MessageBox.Show($"Client with phone number {phoneNumber} not found for freezing.");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error freezing client: {ex.Message}");
+                return false;
+            }
+        }
+
+        public static bool UnfreezeClient(string phoneNumber)
+        {
+            try
+            {
+                Client client = Search(phoneNumber);
+                int daysFreezed = 0;
+                DateTime oldEndDate = DateTime.MinValue;
+                if (client != null)
+                {
+                    if (client.SubscriptionType == "3 Months") oldEndDate = client.SubscriptionStart.AddMonths(3);
+                    else oldEndDate = client.SubscriptionStart.AddMonths(6);
+                    daysFreezed = (client.SubscriptionEnd - oldEndDate).Days;
+                    var logs = GetLogs("");
+                    var filtered = logs.Where(l => l.Phone == phoneNumber).ToList();
+                    DateTime lastlog = DateTime.Parse(filtered[filtered.Count - 1].Date);
+                    int actualFreezed = (DateTime.Today - lastlog).Days;
+                    client.SubscriptionEnd.AddDays(actualFreezed - daysFreezed);
+                }
+                FileInfo fileInfo = new FileInfo(excelPath);
+                if (!fileInfo.Exists)
+                {
+                    MessageBox.Show($"File not found: {excelPath}");
+                    return false;
+                }
+
+                using (var package = new ExcelPackage(fileInfo))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Worksheet 'Clients' not found.");
+                        return false;
+                    }
+
+                    for (int row = 2; row <= worksheet.Dimension.Rows; row++)
+                    {
+                        var cellValue = worksheet.Cells[row, 2].Value?.ToString();
+                        if (cellValue == phoneNumber)
+                        {
+                            worksheet.Cells[row, 6].Value = client.SubscriptionEnd.ToShortDateString();
                             worksheet.Cells[row, 7].Value = "No";
                             package.Save();
                             return true;
@@ -463,6 +533,7 @@ namespace GymManagementSystem
                             worksheet.Cells[row, 5].Value = newStartDate.ToShortDateString();
                             worksheet.Cells[row, 6].Value = newEndDate.ToShortDateString();
                             worksheet.Cells[row, 7].Value = "No";
+                            AddIncomeEntry(worksheet.Cells[row, 1].Value.ToString(), phoneNumber, bundleDurition + " " + subscriptionType);
                             package.Save();
                             return true;
                         }
@@ -584,7 +655,7 @@ namespace GymManagementSystem
             }
         }
 
-        private static int GetAmount(string bundle)
+        public static int GetAmount(string bundle)
         {
             switch (bundle)
             {
@@ -692,10 +763,12 @@ namespace GymManagementSystem
             {
                 MessageBox.Show($"Error getting income: {ex.Message}");
             }
+
             if(filter == "")
             {
                 return incomes;
             }
+
             else
             {
                 var (start, end) = GetDateRange(filter);

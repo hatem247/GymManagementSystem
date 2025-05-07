@@ -28,8 +28,8 @@ namespace GymManagementSystem
 
         private void LoadIncome(string filter)
         {
-            var Income = ExcelHelper.GetIncome(filter);
             IncomeDataGrid.ItemsSource = null;
+            var Income = ExcelHelper.GetIncome(filter);
             IncomeDataGrid.ItemsSource = Income;
         }
 
@@ -42,10 +42,7 @@ namespace GymManagementSystem
         {
             if(IncomeFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
-                string filter = "";
-                if (IncomeFilterComboBox.SelectedIndex == -1) filter = "";
-                else filter = IncomeFilterComboBox.Text;
-                LoadIncome(filter);
+                LoadIncome(IncomeFilterComboBox.Text);
             }
         }
     }

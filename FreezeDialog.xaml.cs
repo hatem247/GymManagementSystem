@@ -9,7 +9,7 @@ namespace GymManagementSystem
         public FreezeDialog()
         {
             InitializeComponent();
-            for (int i = 1; i <= 30; i++)
+            for (int i = 10; i <= 40; i++)
             {
                 DaysComboBox.Items.Add(i);
             }

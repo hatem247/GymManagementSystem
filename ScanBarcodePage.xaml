@@ -1,21 +1,25 @@
 ﻿<Page x:Class="GymManagementSystem.ScanBarcodePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="clr-namespace:GymManagementSystem"
-      Background="#1E1E1E">
+      xmlns:local="clr-namespace:GymManagementSystem">
+    <Page.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FF121212" Offset="0"/>
+            <GradientStop Color="#FF3E2F1C" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Background>
 
-    <Grid Margin="30">
+    <Grid Margin="30" VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Source="Images/back.png" Grid.Row="0" Width="30" Height="30" 
-               HorizontalAlignment="Left" VerticalAlignment="Top"
-               MouseLeftButtonDown="Back_Click"/>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Scan Barcode" FontSize="28" Foreground="White" FontWeight="Bold" Margin="0,0,0,20"/>
-            <TextBox x:Name="txtBarcodeInput" Width="300" Height="40" FontSize="18"/>
-            <Button Content="Search Client" Width="150" KeyDown="TxtBarcodeInput_KeyDown" Height="40" Margin="10" Click="SearchClient_Click"/>
-        </StackPanel>
+        <Border Background="#FF2E2E2E" Padding="40" Grid.Row="1" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Scan Barcode" FontSize="28" Foreground="White" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+                <TextBox x:Name="txtBarcodeInput" Width="300" Height="40" FontSize="18" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
+                <Button Content="Search Client" Width="150" KeyDown="TxtBarcodeInput_KeyDown" Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="SearchClient_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

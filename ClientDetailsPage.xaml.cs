@@ -20,6 +20,7 @@ namespace GymManagementSystem
 
         private void DisplayClientInfo()
         {
+            client = ExcelHelper.Search(client.PhoneNumber);
             txtName.Text = client.FullName;
             txtPhone.Text = client.PhoneNumber;
             txtWeight.Text = client.Weight.ToString("F1");
@@ -27,7 +28,7 @@ namespace GymManagementSystem
             txtStart.Text = client.SubscriptionStart.ToShortDateString();
             txtEnd.Text = client.SubscriptionEnd.ToShortDateString();
 
-            int daysLeft = (client.SubscriptionEnd - DateTime.Today).Days;
+            int daysLeft = (client.SubscriptionEnd - DateTime.Today).Days - 2;
             txtDaysLeft.Text = daysLeft >= 0 ? $"{daysLeft} days" : "Expired";
 
             btnFreeze.Content = client.IsFrozen ? "Continue" : "Freeze";
@@ -56,6 +57,7 @@ namespace GymManagementSystem
             {
                 // Unfreeze the client
                 ExcelHelper.UnfreezeClient(client.PhoneNumber);
+                DisplayClientInfo();
                 MessageBox.Show("Client has been unfrozen.");
                 client.IsFrozen = false;
                 btnFreeze.Content = "Freeze";
@@ -63,14 +65,22 @@ namespace GymManagementSystem
             else
             {
                 // Open freeze dialog
-                var freezeDialog = new FreezeDialog();
-                if (freezeDialog.ShowDialog() == true)
+                if (client.SubscriptionType.Contains("15 Days") || client.SubscriptionType.Contains("1 Month"))
                 {
-                    int days = freezeDialog.SelectedDays;
-                    ExcelHelper.FreezeClient(client.PhoneNumber, days);
-                    MessageBox.Show($"Client frozen for {days} day(s).");
-                    client.IsFrozen = true;
-                    btnFreeze.Content = "Continue";
+                    MessageBox.Show("Can't freeze a client because subscription bundle is less than 3 months");
+                }
+                else
+                {
+                    var freezeDialog = new FreezeDialog();
+                    if (freezeDialog.ShowDialog() == true)
+                    {
+                        int days = freezeDialog.SelectedDays;
+                        ExcelHelper.FreezeClient(client.PhoneNumber, days);
+                        DisplayClientInfo();
+                        MessageBox.Show($"Client frozen for {days} day(s).");
+                        client.IsFrozen = true;
+                        btnFreeze.Content = "Continue";
+                    }
                 }
             }
         }
@@ -105,6 +115,18 @@ namespace GymManagementSystem
                 DisplayClientInfo();
 
                 MessageBox.Show($"Subscription renewed to {selectedBundle} for {selectedDuration} month(s).");
+            }
+        }
+
+        private void btnAddExtra_Click(object sender, RoutedEventArgs e)
+        {
+            var AddDaysDialog = new AddExtraDaysDialoge();
+            if (AddDaysDialog.ShowDialog() == true)
+            {
+                int days = AddDaysDialog.SelectedDays;
+                ExcelHelper.AddExtraDays(client.PhoneNumber, days);
+                DisplayClientInfo();
+                MessageBox.Show($"Client's days added by {days} day(s).");
             }
         }
     }

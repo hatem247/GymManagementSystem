@@ -1,8 +1,13 @@
 ﻿<Page x:Class="GymManagementSystem.ClientDetailsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="clr-namespace:GymManagementSystem"
-      Background="#1E1E1E">
+      xmlns:local="clr-namespace:GymManagementSystem">
+    <Page.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FF121212" Offset="0"/>
+            <GradientStop Color="#FF3E2F1C" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Grid Margin="30">
 
         <Grid.RowDefinitions>
@@ -14,50 +19,60 @@
         </Grid.RowDefinitions>
 
         <!-- Header icons -->
-        <Grid Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Source="Images/logo.jpg" Width="30" Height="30" MouseLeftButtonDown="HomeIcon_Click"/>
-            <Image Source="Images/back.png" Width="30" Height="30" Margin="40,0,0,0" MouseLeftButtonDown="Back_Click"/>
-        </Grid>
+        <Ellipse Width="30" Height="30" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" MouseLeftButtonDown="HomeIcon_Click">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="/Images/logo.jpg"/>
+            </Ellipse.Fill>
+        </Ellipse>
 
         <!-- Title -->
         <TextBlock Text="Client Details" FontSize="28" Foreground="White" FontWeight="Bold" Grid.Row="1" Margin="0,0,0,20"/>
 
         <!-- Details section -->
         <StackPanel Grid.Row="2" Margin="0,0,0,20">
-            <TextBlock Text="Name:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtName" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Phone:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtPhone" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Weight:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtWeight" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Subscription Type:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtSubscription" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Start Date:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtStart" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="End Date:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtEnd" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Text="Days Left:" Foreground="LightGray"/>
-            <TextBlock x:Name="txtDaysLeft" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Text="Name:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtName" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+            <TextBlock Text="Phone:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtPhone" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+            <TextBlock Text="Weight:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtWeight" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+            <TextBlock Text="Subscription Type:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtSubscription" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+            <TextBlock Text="Start Date:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtStart" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+            <TextBlock Text="End Date:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtEnd" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+            <TextBlock Text="Days Left:" Foreground="LightGray" FontSize="20"/>
+            <TextBlock x:Name="txtDaysLeft" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
         </StackPanel>
 
         <!-- Main buttons -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
-            <Button x:Name="btnEdit" Content="Edit" Width="80" Margin="5" Click="EditButton_Click"/>
-            <Button x:Name="btnFreeze" Content="Freeze" Width="80" Margin="5" Click="FreezeButton_Click"/>
-            <Button x:Name="btnRenew" Content="Renew Bundle" Width="120" Margin="5" Click="btnRenew_Click"/>
-            <Button x:Name="btnDelete" Content="Delete" Width="80" Margin="5" Click="DeleteButton_Click"/>
+            <Button x:Name="btnEdit" Content="Edit" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="EditButton_Click"/>
+            <Button x:Name="btnFreeze" Content="Freeze" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="FreezeButton_Click"/>
+            <Button x:Name="btnRenew" Content="Renew Bundle" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="btnRenew_Click"/>
+            <Button x:Name="btnDelete" Content="Delete" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="DeleteButton_Click"/>
+            <Button x:Name="btnAddExtra" Content="Add Extra days" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="btnAddExtra_Click"/>
         </StackPanel>
 
         <!-- Logs DataGrid -->
-        <DataGrid x:Name="LogsDataGrid"
-                  Grid.Row="4"
-                  AutoGenerateColumns="False"
-                  Background="#2D2D30"
-                  Foreground="White"
-                  CanUserAddRows="False"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="Horizontal"
-                  Margin="0,10,0,0">
+        <DataGrid x:Name="LogsDataGrid" Grid.Row="4" AutoGenerateColumns="False" IsReadOnly="True"
+          Background="#FF1A1A1A" Foreground="White"
+          RowBackground="#FF2A2A2A" AlternatingRowBackground="#FF222222"
+          BorderBrush="#FFD4AF37" BorderThickness="1"
+          GridLinesVisibility="All"
+          HorizontalGridLinesBrush="#FF8C6D1F"
+          VerticalGridLinesBrush="#FF8C6D1F">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#FFD4AF37"/>
+                    <Setter Property="Foreground" Value="#FF111111"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="6"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
