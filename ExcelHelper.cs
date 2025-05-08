@@ -14,8 +14,8 @@ namespace GymManagementSystem
 {
     public static class ExcelHelper
     {
-        //public static string excelPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sheet.xlsx");
-        public static string excelPath = "Sheet.xlsx";
+        public static string excelPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sheet.xlsx");
+        //public static string excelPath = "Sheet.xlsx";
 
         static ExcelHelper()
         {
