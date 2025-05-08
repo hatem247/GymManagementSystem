@@ -1,7 +1,7 @@
 ﻿<Window x:Class="GymManagementSystem.UpdateClientDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Update Client Details" Height="300" Width="400" >
+        Title="Update Client Details" Height="300" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#FF121212" Offset="0"/>

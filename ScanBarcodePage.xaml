@@ -14,6 +14,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Ellipse Width="30" Height="30" HorizontalAlignment="Left" MouseLeftButtonDown="Back_Click" Margin="5" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="/Images/back.png"/>
+            </Ellipse.Fill>
+        </Ellipse>
         <Border Background="#FF2E2E2E" Padding="40" Grid.Row="1" CornerRadius="20" VerticalAlignment="Top" HorizontalAlignment="Center">
             <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Scan Barcode" FontSize="28" Foreground="White" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>

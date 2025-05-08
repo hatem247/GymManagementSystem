@@ -1,0 +1,25 @@
+﻿<Window x:Class="GymManagementSystem.ConfirmDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GymManagementSystem"
+        mc:Ignorable="d"
+        Title="Confirm Dialog" Height="120" Width="400"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Background>
+    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FF121212" Offset="0"/>
+        <GradientStop Color="#FF3E2F1C" Offset="1"/>
+    </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <StackPanel>
+            <TextBlock x:Name="Messagetxt" FontSize="20" Foreground="Gold" HorizontalAlignment="Center" FontWeight="Bold">Text</TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Confirm" Width="124" Margin="10" Click="ConfirmButton_Click" Background="Gold"/>
+                <Button Content="Cancel" Width="124" Margin="10" Click="CancelButton_Click" Background="Gold"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GymManagementSystem
 {
@@ -20,29 +11,40 @@ namespace GymManagementSystem
     /// </summary>
     public partial class LogsPage : Page
     {
+        public ObservableCollection<LogEntry> Logs { get; set; } = new ObservableCollection<LogEntry>();
+
         public LogsPage()
         {
             InitializeComponent();
-            LoadLogs("");
+            LogsDataGrid.ItemsSource = Logs;
+            LogsFilterComboBox.SelectedIndex = 0;
+            LoadLogs(LogsFilterComboBox.Text);
         }
 
         private void LoadLogs(string filter)
         {
-            LogsDataGrid.ItemsSource = null;
-            var Logs = ExcelHelper.GetLogs(filter);
-            LogsDataGrid.ItemsSource = Logs;
-        }
-
-        private void Back_Click(object sender, MouseButtonEventArgs e)
-        {
-            NavigationService.Navigate(new HomePage());
-        }
-
-        private void LogsFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (LogsFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
+            var logsFromExcel = ExcelHelper.GetLogs(filter);
+            Logs.Clear();
+            foreach (var log in logsFromExcel)
             {
-                LoadLogs(LogsFilterComboBox.Text);
+                Logs.Add(log);
+            }
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadLogs(LogsFilterComboBox.Text);
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                NavigationService.Navigate(new HomePage());
             }
         }
     }

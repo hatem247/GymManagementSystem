@@ -12,6 +12,7 @@ namespace GymManagementSystem
         public string PhoneNumber { get; set; }
         public double Weight { get; set; }
         public string SubscriptionType { get; set; }
+        public int Sessions { get; set; }
         public DateTime SubscriptionStart { get; set; }
         public DateTime SubscriptionEnd { get; set; }
         public bool IsFrozen { get; set; }

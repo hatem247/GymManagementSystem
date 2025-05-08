@@ -1,6 +1,6 @@
 ﻿<Page x:Class="GymManagementSystem.LoginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" ShowsNavigationUI="False">
     <Page.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#FF121212" Offset="0"/>

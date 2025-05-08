@@ -11,16 +11,22 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ellipse Width="150" Height="150" Grid.Row="0" VerticalAlignment="Top" Margin="127,-60,127,0" Grid.RowSpan="2">
+        <Ellipse Width="30" Height="30" Grid.Row="0" HorizontalAlignment="Left" MouseLeftButtonDown="Back_Click" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <ImageBrush ImageSource="/Images/back.png"/>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse Width="150" Height="150" Grid.Row="1" VerticalAlignment="Top" Margin="127,-60,127,0" Grid.RowSpan="2">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="/Images/logo.jpg"/>
             </Ellipse.Fill>
         </Ellipse>
-        <TextBlock Text="Welcome, Admin" FontSize="40" Foreground="White" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0"/>
+        <TextBlock Text="Welcome, Admin" FontSize="40" Foreground="White" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,90,0,0"/>
 
-        <StackPanel HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Width="300" Margin="0,24,0,0">
+        <StackPanel HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Width="300" Margin="0,24,0,0">
 
             <Button Content="📷 Scan Barcode"
                     Background="#FF2196F3" Foreground="White" FontSize="20"

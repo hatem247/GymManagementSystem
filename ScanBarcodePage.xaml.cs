@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -39,10 +40,25 @@ namespace GymManagementSystem
             }
 
             Client client = ExcelHelper.Search(barcode);
+            bool logt = false;
             if (client != null)
             {
-                ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);
-                NavigationService.Navigate(new ClientDetailsPage(client));
+                var logs = ExcelHelper.GetLogs("");
+                var filtered = logs.Where(l => l.Phone == client.PhoneNumber).ToList();
+                foreach(var log in filtered)
+                {
+                    if(log.Date == DateTime.Today.ToShortDateString())
+                    {
+                        logt = true;
+                        break;
+                    }
+                }
+                if (!logt)
+                {
+                    ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);
+                    NavigationService.Navigate(new ClientDetailsPage(client));
+                }
+                else MessageBox.Show("Client Already attended today");
                 txtBarcodeInput.Clear();
             }
             else
@@ -52,9 +68,16 @@ namespace GymManagementSystem
             }
         }
 
-        private void Back_Click(object sender, MouseButtonEventArgs e)
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new HomePage());
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                NavigationService.Navigate(new HomePage());
+            }
         }
     }
 }

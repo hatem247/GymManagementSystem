@@ -17,13 +17,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-
-        <!-- Header icons -->
-        <Ellipse Width="30" Height="30" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" MouseLeftButtonDown="HomeIcon_Click">
-            <Ellipse.Fill>
-                <ImageBrush ImageSource="/Images/logo.jpg"/>
-            </Ellipse.Fill>
-        </Ellipse>
+        <StackPanel Orientation="Horizontal">
+            <Ellipse Width="50" Height="50" HorizontalAlignment="Left" MouseLeftButtonDown="Back_Click" Margin="5" VerticalAlignment="Top">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="/Images/back.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <!-- Header icons -->
+            <Ellipse Width="50" Height="50" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10" MouseLeftButtonDown="HomeIcon_Click">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="/Images/logo.jpg"/>
+                </Ellipse.Fill>
+            </Ellipse>
+        </StackPanel>
 
         <!-- Title -->
         <TextBlock Text="Client Details" FontSize="28" Foreground="White" FontWeight="Bold" Grid.Row="1" Margin="0,0,0,20"/>
@@ -47,6 +53,8 @@
             <TextBlock x:Name="txtEnd" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
             <TextBlock Text="Days Left" Foreground="LightGray" FontSize="25"/>
             <TextBlock x:Name="txtDaysLeft" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+            <TextBlock Text="Sessions Left" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtSessionsLeft" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
         </StackPanel>
 
         <!-- Main buttons -->

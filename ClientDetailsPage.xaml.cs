@@ -28,15 +28,24 @@ namespace GymManagementSystem
             txtStart.Text = client.SubscriptionStart.ToShortDateString();
             txtEnd.Text = client.SubscriptionEnd.ToShortDateString();
 
-            int daysLeft = (client.SubscriptionEnd - DateTime.Today).Days - 2;
+            int daysLeft = (client.SubscriptionEnd - DateTime.Today).Days;
+            int sessionssLeft = client.Sessions;
             txtDaysLeft.Text = daysLeft >= 0 ? $"{daysLeft} days" : "Expired";
+            txtSessionsLeft.Text = sessionssLeft >= 0 ? $"{sessionssLeft} sessions" : "Expired";
 
             btnFreeze.Content = client.IsFrozen ? "Continue" : "Freeze";
         }
 
-        private void Back_Click(object sender, MouseButtonEventArgs e)
+        private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new HomePage());
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                NavigationService.Navigate(new HomePage());
+            }
         }
 
         private void HomeIcon_Click(object sender, MouseButtonEventArgs e)
@@ -109,12 +118,21 @@ namespace GymManagementSystem
             if (renewDialog.ShowDialog() == true)
             {
                 string selectedBundle = renewDialog.BundleBox.Text;
-                string selectedDuration = renewDialog.SubscipriontypeBox.Text;
+                string selectedSubscipriontype = renewDialog.SubscipriontypeBox.Text;
+                string selectedSessions = renewDialog.SessionstypeBox.SelectedIndex == 0 ? "" : renewDialog.SessionstypeBox.Text;
 
-                ExcelHelper.RenewClientSubscription(client.PhoneNumber, selectedBundle, selectedDuration);
-                DisplayClientInfo();
+                var confirmDialog = new ConfirmDialog();
+                string sub = selectedBundle + " " + selectedSubscipriontype + " " + selectedSessions + " Sessions";
+                int total = ExcelHelper.GetAmount(sub);
+                confirmDialog.Messagetxt.Text = $"Client has to pay {total} EGP";
+                confirmDialog.ShowDialog();
+                if(confirmDialog.DialogResult == true)
+                {
+                    ExcelHelper.RenewClientSubscription(client.PhoneNumber, selectedBundle, selectedSubscipriontype, int.Parse(selectedSessions));
+                    DisplayClientInfo();
 
-                MessageBox.Show($"Subscription renewed to {selectedBundle} for {selectedDuration} month(s).");
+                    MessageBox.Show($"Subscription renewed to {client.FullName} for {selectedBundle} month(s).");
+                }
             }
         }
 

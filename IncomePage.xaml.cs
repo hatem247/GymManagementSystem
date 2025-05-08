@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,29 +21,43 @@ namespace GymManagementSystem
     /// </summary>
     public partial class IncomePage : Page
     {
+        public ObservableCollection<IncomeEntry> Incomes { get; set; } = new ObservableCollection<IncomeEntry>();
+
         public IncomePage()
         {
             InitializeComponent();
-            LoadIncome("");
+            IncomeDataGrid.ItemsSource = Incomes;
+            IncomeFilterComboBox.SelectedIndex = 0;
+            LoadIncome(IncomeFilterComboBox.Text);
         }
 
         private void LoadIncome(string filter)
         {
-            IncomeDataGrid.ItemsSource = null;
-            var Income = ExcelHelper.GetIncome(filter);
-            IncomeDataGrid.ItemsSource = Income;
-        }
-
-        private void Back_Click(object sender, MouseButtonEventArgs e)
-        {
-            NavigationService.Navigate(new HomePage());
-        }
-
-        private void IncomeFilterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(IncomeFilterComboBox.SelectedItem is ComboBoxItem selectedItem)
+            var IncomesFromExcel = ExcelHelper.GetIncome(filter);
+            int total = 0;
+            Incomes.Clear();
+            foreach (var income in IncomesFromExcel)
             {
-                LoadIncome(IncomeFilterComboBox.Text);
+                Incomes.Add(income);
+                if(income.Date == DateTime.Today.ToShortDateString()) total += int.Parse(income.Amount);
+            }
+            totaltxt.Text = $"Today's Income: {total}";
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadIncome(IncomeFilterComboBox.Text);
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                NavigationService.Navigate(new HomePage());
             }
         }
     }

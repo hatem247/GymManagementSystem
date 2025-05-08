@@ -19,12 +19,14 @@ namespace GymManagementSystem
     /// </summary>
     public partial class RenewBundleDialog : Window
     {
-        public string SelectedBundle { get; private set; }
-        public int SelectedDuration { get; private set; }
-
         public RenewBundleDialog()
         {
             InitializeComponent();
+            SessionstypeBox.Items.Add("");
+            SessionstypeBox.Items.Add("45");
+            SessionstypeBox.Items.Add("90");
+            SessionstypeBox.Items.Add("180");
+            SessionstypeBox.SelectedIndex = 0;
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)

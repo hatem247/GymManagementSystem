@@ -38,8 +38,11 @@ namespace GymManagementSystem
                             SubscriptionType = sheet.Cells[i, 4].Text,
                             SubscriptionStart = DateTime.Parse(sheet.Cells[i, 5].Text),
                             SubscriptionEnd = DateTime.Parse(sheet.Cells[i, 6].Text),
-                            IsFrozen = sheet.Cells[i, 7].Text.ToLower() == "true"
+                            IsFrozen = sheet.Cells[i, 7].Text.ToLower() == "true",
+                            Sessions = int.Parse(sheet.Cells[i, 8].Text)
                         };
+                        sheet.Cells[i, 8].Value = client.Sessions - 1;
+                        package.Save();
                         return client;
                     }
                 }
@@ -47,7 +50,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool AddClient(string fullName, string weight, string bundle, string subsciptionType, string phoneNumber)
+        public static bool AddClient(string fullName, string weight, string bundle, int Sessions, string subsciptionType, string phoneNumber)
         {
             try
             {
@@ -69,16 +72,16 @@ namespace GymManagementSystem
                 switch (bundle)
                 {
                     case "15 Days":
-                        endDate = startDate.AddDays(15);
+                        endDate = startDate.AddDays(14);
                         break;
                     case "1 Month":
-                        endDate = startDate.AddMonths(1);
+                        endDate = startDate.AddMonths(1).AddDays(-1);
                         break;
                     case "3 Months":
-                        endDate = startDate.AddMonths(3);
+                        endDate = startDate.AddMonths(3).AddDays(-1);
                         break;
                     case "6 Months":
-                        endDate = startDate.AddMonths(6);
+                        endDate = startDate.AddMonths(6).AddDays(-1);
                         break;
                     default:
                         endDate = startDate;
@@ -101,6 +104,7 @@ namespace GymManagementSystem
                         worksheet.Cells[1, 5].Value = "Start Date";
                         worksheet.Cells[1, 6].Value = "End Date";
                         worksheet.Cells[1, 7].Value = "Frozen";
+                        worksheet.Cells[1, 8].Value = "Remaining Sessions";
                     }
 
                     worksheet.Cells[row, 1].Value = fullName;
@@ -110,6 +114,7 @@ namespace GymManagementSystem
                     worksheet.Cells[row, 5].Value = startDate.ToShortDateString();
                     worksheet.Cells[row, 6].Value = endDate.ToShortDateString();
                     worksheet.Cells[row, 7].Value = "No";
+                    worksheet.Cells[1, 8].Value = Sessions;
                     package.Save();
                     return true;
                 }
@@ -188,6 +193,16 @@ namespace GymManagementSystem
 
                         client.IsFrozen = worksheet.Cells[row, 7].Value?.ToString() == "Yes";
 
+                        string sessionsString = worksheet.Cells[row, 8].Value?.ToString();
+                        if (!string.IsNullOrEmpty(sessionsString) && int.TryParse(sessionsString, NumberStyles.Any, CultureInfo.InvariantCulture, out int sessions))
+                        {
+                            client.Sessions = sessions;
+                        }
+                        else
+                        {
+                            client.Sessions = 0;
+                            MessageBox.Show($"Invalid weight format at row {row}. Setting weight to 0.");
+                        }
                         clients.Add(client);
                     }
                 }
@@ -219,17 +234,54 @@ namespace GymManagementSystem
                         MessageBox.Show("Worksheet 'Clients' not found.");
                         return false;
                     }
-
-                    for (int row = 2; row <= worksheet.Dimension.Rows; row++)
+                    
+                    ExcelWorksheet logsworksheet = package.Workbook.Worksheets["Logs"];
+                    if (worksheet == null)
                     {
-                        if (worksheet.Cells[row, 2].Value?.ToString() == client.PhoneNumber)
-                        {
-                            worksheet.Cells[row, 1].Value = client.FullName;
-                            worksheet.Cells[row, 3].Value = client.Weight;
-                            package.Save();
-                            return true;
-                        }
+                        MessageBox.Show("Worksheet 'Logs' not found.");
+                        return false;
                     }
+                    
+                    ExcelWorksheet Incomeworksheet = package.Workbook.Worksheets["Income"];
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Worksheet 'Income' not found.");
+                        return false;
+                    }
+
+                    if (Search(client.PhoneNumber) != null)
+                    {
+                        for (int row = 2; row <= worksheet.Dimension.Rows; row++)
+                        {
+                            if (worksheet.Cells[row, 2].Value?.ToString() == client.PhoneNumber)
+                            {
+                                worksheet.Cells[row, 1].Value = client.FullName;
+                                worksheet.Cells[row, 3].Value = client.Weight;
+                                package.Save();
+                                break;
+                            }
+                        }
+
+                        for (int row = 2; row <= logsworksheet.Dimension.Rows; row++)
+                        {
+                            if (logsworksheet.Cells[row, 2].Value?.ToString() == client.PhoneNumber)
+                            {
+                                logsworksheet.Cells[row, 1].Value = client.FullName;
+                                package.Save();
+                            }
+                        }
+
+                        for (int row = 2; row <= Incomeworksheet.Dimension.Rows; row++)
+                        {
+                            if (Incomeworksheet.Cells[row, 2].Value?.ToString() == client.PhoneNumber)
+                            {
+                                Incomeworksheet.Cells[row, 1].Value = client.FullName;
+                                package.Save();
+                            }
+                        }
+                        return true;
+                    }
+
                     MessageBox.Show($"Client with phone number {client.PhoneNumber} not found for editing.");
                     return false;
                 }
@@ -490,7 +542,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool RenewClientSubscription(string phoneNumber, string bundleDurition, string subscriptionType)
+        public static bool RenewClientSubscription(string phoneNumber, string bundleDurition, string subscriptionType, int Sessions)
         {
             try
             {
@@ -520,16 +572,16 @@ namespace GymManagementSystem
                             switch (bundleDurition)
                             {
                                 case "15 Days":
-                                    newEndDate = newStartDate.AddDays(15);
+                                    newEndDate = newStartDate.AddDays(14);
                                     break;
                                 case "1 Month":
-                                    newEndDate = newStartDate.AddMonths(1);
+                                    newEndDate = newStartDate.AddMonths(1).AddDays(-1);
                                     break;
                                 case "3 Months":
-                                    newEndDate = newStartDate.AddMonths(3);
+                                    newEndDate = newStartDate.AddMonths(3).AddDays(-1);
                                     break;
                                 case "6 Months":
-                                    newEndDate = newStartDate.AddMonths(6);
+                                    newEndDate = newStartDate.AddMonths(6).AddDays(-1);
                                     break;
                                 default:
                                     newEndDate = newStartDate;
@@ -540,7 +592,8 @@ namespace GymManagementSystem
                             worksheet.Cells[row, 5].Value = newStartDate.ToShortDateString();
                             worksheet.Cells[row, 6].Value = newEndDate.ToShortDateString();
                             worksheet.Cells[row, 7].Value = "No";
-                            AddIncomeEntry(worksheet.Cells[row, 1].Value.ToString(), phoneNumber, bundleDurition + " " + subscriptionType);
+                            string subscription = bundleDurition + " " + subscriptionType + " " + Sessions + " Sessions";
+                            AddIncomeEntry(worksheet.Cells[row, 1].Value.ToString(), phoneNumber, subscription);
                             package.Save();
                             return true;
                         }
@@ -632,6 +685,26 @@ namespace GymManagementSystem
             }
         }
 
+        public static int GetAmount(string bundle)
+        {
+            switch (bundle)
+            {
+                case "15 Days Gym only 0 Sessions": return 200;
+                case "15 Days Gym and cardio 0 Sessions": return 250;
+                case "1 Month Gym only 0 Sessions": return 300;
+                case "1 Month Gym and cardio 0 Sessions": return 350;
+                case "3 Months Gym only 45 Sessions": return 600;
+                case "3 Months Gym only 90 Sessions": return 750;
+                case "3 Months Gym and cardio 45 Sessions": return 750;
+                case "3 Months Gym and cardio 90 Sessions": return 900;
+                case "6 Months Gym only 90 Sessions": return 1100;
+                case "6 Months Gym only 180 Sessions": return 1200;
+                case "6 Months Gym and cardio 90 Sessions": return 1200;
+                case "6 Months Gym and cardio 180 Sessions": return 1500;
+                default: return 0;
+            }
+        }
+
         public static (DateTime start, DateTime end) GetDateRange(string filter)
         {
             var today = DateTime.Today;
@@ -642,39 +715,16 @@ namespace GymManagementSystem
                     return (today, today.AddDays(1).AddTicks(-1));
 
                 case "Yesterday":
-                    var yesterday = today.AddDays(-1);
-                    return (yesterday, today.AddTicks(-1));
+                    return (today.AddDays(-1), today.AddTicks(-1));
 
                 case "Last Week":
-                    var firstDayOfWeek = CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-                    var daysToSubtract = (int)today.DayOfWeek - (int)firstDayOfWeek - 7;
-                    var lastWeekStart = today.AddDays(daysToSubtract);
-                    var lastWeekEnd = lastWeekStart.AddDays(7).AddTicks(-1);
-                    return (lastWeekStart, lastWeekEnd);
+                    return (today.AddDays(-7), today);
 
                 case "Last Month":
-                    var lastMonthStart = new DateTime(today.Year, today.Month, 1).AddMonths(-1);
-                    var lastMonthEnd = new DateTime(today.Year, today.Month, 1).AddTicks(-1);
-                    return (lastMonthStart, lastMonthEnd);
+                    return (today.AddMonths(-1), today);
 
                 default:
                     throw new ArgumentException("Invalid filter. Supported values are: Today, Yesterday, Last Week, Last Month.");
-            }
-        }
-
-        public static int GetAmount(string bundle)
-        {
-            switch (bundle)
-            {
-                case "15 Days Gym only": return 200;
-                case "15 Days Gym and cardio": return 250;
-                case "1 Month Gym only": return 300;
-                case "1 Month Gym and cardio": return 350;
-                case "3 Months Gym only": return 750;
-                case "3 Months Gym and cardio": return 900;
-                case "6 Months Gym": return 1350;
-                case "6 Months Gym and cardio": return 1600;
-                default: return 0;
             }
         }
 
@@ -789,5 +839,6 @@ namespace GymManagementSystem
                 }).ToList();
             }
         }
+
     }
 }
