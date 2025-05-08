@@ -27,7 +27,28 @@ namespace GymManagementSystem
                 NavigationService.Navigate(new ClientDetailsPage(selectedClient));
             }
         }
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            string phone = SearchInput.Text.Trim();
 
+            if (string.IsNullOrEmpty(phone))
+            {
+                MessageBox.Show("Please enter a phone number.");
+                return;
+            }
+
+            Client client = ExcelHelper.Search(phone);
+            if (client != null)
+            {
+                NavigationService.Navigate(new ClientDetailsPage(client));
+                SearchInput.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Client not found.");
+                SearchInput.SelectAll();
+            }
+        }
         private void Back_Click(object sender, MouseButtonEventArgs e)
         {
             NavigationService.Navigate(new HomePage());

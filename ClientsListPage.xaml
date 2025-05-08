@@ -7,13 +7,21 @@
             <GradientStop Color="#FF3E2F1C" Offset="1"/>
         </LinearGradientBrush>
     </Page.Background>
-
     <Grid>
 
-        <TextBlock Text="Clients List" Foreground="White" FontSize="24" Margin="0 20 0 0"
-                   HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <ListView x:Name="ClientsList" Margin="30,70,30,30" 
+        <TextBlock Text="Clients List" Grid.Row="0" Foreground="White" FontSize="24" Margin="0 20 0 0"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <StackPanel Grid.Row="1">
+            <TextBox x:Name="SearchInput" Width="100" Height="20" FontSize="12" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
+            <Button Content="Search Client" Width="50" Height="15" Margin="2" Background="Gold" FontWeight="Bold" FontSize="5" Click="Search_Click"/>
+        </StackPanel>
+        <ListView x:Name="ClientsList" Grid.Row="2" Margin="10" 
                   SelectionChanged="ClientsList_SelectionChanged"
                   Background="#FF2E2E2E" Foreground="White">
             <ListView.ItemTemplate>

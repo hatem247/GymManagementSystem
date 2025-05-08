@@ -10,9 +10,9 @@ namespace GymManagementSystem
         public ScanBarcodePage()
         {
             InitializeComponent();
-
-            // Subscribe to the KeyDown event of the barcode input textbox
+            txtBarcodeInput.Focus();
             txtBarcodeInput.KeyDown += TxtBarcodeInput_KeyDown;
+            
         }
 
         private void TxtBarcodeInput_KeyDown(object sender, KeyEventArgs e)

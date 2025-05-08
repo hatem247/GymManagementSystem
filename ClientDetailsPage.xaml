@@ -29,30 +29,33 @@
         <TextBlock Text="Client Details" FontSize="28" Foreground="White" FontWeight="Bold" Grid.Row="1" Margin="0,0,0,20"/>
 
         <!-- Details section -->
-        <StackPanel Grid.Row="2" Margin="0,0,0,20">
-            <TextBlock Text="Name:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtName" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
-            <TextBlock Text="Phone:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtPhone" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
-            <TextBlock Text="Weight:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtWeight" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
-            <TextBlock Text="Subscription Type:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtSubscription" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
-            <TextBlock Text="Start Date:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtStart" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
-            <TextBlock Text="End Date:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtEnd" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
-            <TextBlock Text="Days Left:" Foreground="LightGray" FontSize="20"/>
-            <TextBlock x:Name="txtDaysLeft" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="15"/>
+        <StackPanel Grid.Row="2" Margin="5, 0, 0, 0">
+            <TextBlock Text="Name" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtName" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+            <TextBlock Text="Phone" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtPhone" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+            <TextBlock Text="Weight" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtWeight" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+            <TextBlock Text="Subscription Type" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtSubscription" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="300, 0, 0, 0">
+            <TextBlock Text="Start Date" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtStart" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+            <TextBlock Text="End Date" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtEnd" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
+            <TextBlock Text="Days Left" Foreground="LightGray" FontSize="25"/>
+            <TextBlock x:Name="txtDaysLeft" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
         </StackPanel>
 
         <!-- Main buttons -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
-            <Button x:Name="btnEdit" Content="Edit" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="EditButton_Click"/>
-            <Button x:Name="btnFreeze" Content="Freeze" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="FreezeButton_Click"/>
-            <Button x:Name="btnRenew" Content="Renew Bundle" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="btnRenew_Click"/>
-            <Button x:Name="btnDelete" Content="Delete" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="DeleteButton_Click"/>
-            <Button x:Name="btnAddExtra" Content="Add Extra days" Width="150"  Height="40" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="btnAddExtra_Click"/>
+            <Button x:Name="btnEdit" Content="Edit" Width="150"  Height="30" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="EditButton_Click"/>
+            <Button x:Name="btnFreeze" Content="Freeze" Width="150"  Height="30" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="FreezeButton_Click"/>
+            <Button x:Name="btnRenew" Content="Renew Bundle" Width="150"  Height="30" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="btnRenew_Click"/>
+            <Button x:Name="btnDelete" Content="Delete" Width="150"  Height="30" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="DeleteButton_Click"/>
+            <Button x:Name="btnAddExtra" Content="Add Extra days" Width="150"  Height="30" Margin="10" Background="Gold" FontWeight="Bold" FontSize="20" Click="btnAddExtra_Click"/>
         </StackPanel>
 
         <!-- Logs DataGrid -->
@@ -70,14 +73,15 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
                     <Setter Property="Padding" Value="6"/>
+                    <Setter Property="FontSize" Value="10"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
+                <DataGridTextColumn Header="Name" FontSize="15" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Phone" FontSize="15" Binding="{Binding Phone}" />
+                <DataGridTextColumn Header="Date" FontSize="15" Binding="{Binding Date}" />
+                <DataGridTextColumn Header="Time" FontSize="15" Binding="{Binding Time}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

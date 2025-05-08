@@ -63,15 +63,16 @@
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="Padding" Value="6"/>
+                        <Setter Property="FontSize" Value="10"/>
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                    <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" />
+                    <DataGridTextColumn Header="Name" FontSize="15" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Phone" FontSize="15" Binding="{Binding Phone}" />
+                    <DataGridTextColumn Header="Date" FontSize="15" Binding="{Binding Date}" />
+                    <DataGridTextColumn Header="Time" FontSize="15" Binding="{Binding Time}" />
+                    <DataGridTextColumn Header="Amount" FontSize="15" Binding="{Binding Amount}" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

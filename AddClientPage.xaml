@@ -59,7 +59,7 @@
                 </ComboBox>
 
                 <TextBlock Text="Subscription Type" Foreground="White" FontSize="20"/>
-                <ComboBox Width="320" x:Name="SubscipriontypeBox" Height="40" Margin="10,10,10,50">
+                <ComboBox Width="320" x:Name="SubscipriontypeBox" Height="40" Margin="10,10,10,10">
                     <ComboBox.ItemContainerStyle>
                         <Style TargetType="ComboBoxItem">
                             <Setter Property="Foreground" Value="White"/>

@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GymManagementSystem
 {
@@ -50,6 +51,12 @@ namespace GymManagementSystem
         {
             try
             {
+                var regex = new Regex(@"^01[0125][0-9]{8}$");
+                if (!regex.IsMatch(phoneNumber))
+                {
+                    MessageBox.Show("Invalid Phone Number");
+                    return false;
+                }
                 Client client = Search(phoneNumber);
                 if (client != null)
                 {

@@ -68,11 +68,12 @@
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="Padding" Value="6"/>
+                        <Setter Property="FontSize" Value="10"/>
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Name" FontSize="15" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
                     <DataGridTextColumn Header="Time" Binding="{Binding Time}" />
