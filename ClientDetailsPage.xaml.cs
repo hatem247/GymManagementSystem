@@ -119,16 +119,19 @@ namespace GymManagementSystem
             {
                 string selectedBundle = renewDialog.BundleBox.Text;
                 string selectedSubscipriontype = renewDialog.SubscipriontypeBox.Text;
-                string selectedSessions = renewDialog.SessionstypeBox.SelectedIndex == 0 ? "" : renewDialog.SessionstypeBox.Text;
+                string selectedSessions = ExcelHelper.GetSessions(selectedBundle).ToString();
 
                 var confirmDialog = new ConfirmDialog();
-                string sub = selectedBundle + " " + selectedSubscipriontype + " " + selectedSessions + " Sessions";
+                string sub = selectedBundle + " " + selectedSubscipriontype;
                 int total = ExcelHelper.GetAmount(sub);
                 confirmDialog.Messagetxt.Text = $"Client has to pay {total} EGP";
                 confirmDialog.ShowDialog();
-                if(confirmDialog.DialogResult == true)
+                string Sessions = ExcelHelper.GetSessions(selectedBundle);
+                if (confirmDialog.DialogResult == true)
                 {
-                    ExcelHelper.RenewClientSubscription(client.PhoneNumber, selectedBundle, selectedSubscipriontype, int.Parse(selectedSessions));
+                    ExcelHelper.RenewClientSubscription(client.PhoneNumber, selectedBundle, selectedSubscipriontype, Sessions);
+                    ExcelHelper.AddIncomeEntry(client.FullName, client.PhoneNumber, sub);
+                    ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);
                     DisplayClientInfo();
 
                     MessageBox.Show($"Subscription renewed to {client.FullName} for {selectedBundle} month(s).");

@@ -8,12 +8,14 @@ using System.Windows.Shapes;
 using System.Windows;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Media.Media3D;
 
 namespace GymManagementSystem
 {
     public static class ExcelHelper
     {
-        public static string excelPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sheet.xlsx");
+        //public static string excelPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sheet.xlsx");
+        public static string excelPath = "Sheet.xlsx";
 
         static ExcelHelper()
         {
@@ -39,9 +41,8 @@ namespace GymManagementSystem
                             SubscriptionStart = DateTime.Parse(sheet.Cells[i, 5].Text),
                             SubscriptionEnd = DateTime.Parse(sheet.Cells[i, 6].Text),
                             IsFrozen = sheet.Cells[i, 7].Text.ToLower() == "true",
-                            Sessions = int.Parse(sheet.Cells[i, 8].Text)
+                            Sessions = int.TryParse(sheet.Cells[i, 8].Text, out int sessions) ? sessions : 0
                         };
-                        sheet.Cells[i, 8].Value = client.Sessions - 1;
                         package.Save();
                         return client;
                     }
@@ -50,7 +51,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool AddClient(string fullName, string weight, string bundle, int Sessions, string subsciptionType, string phoneNumber)
+        public static bool AddClient(string fullName, string weight, string bundle, string supscriptiontype,string Sessions, string phoneNumber)
         {
             try
             {
@@ -69,7 +70,7 @@ namespace GymManagementSystem
                 DateTime startDate = DateTime.Today;
                 DateTime endDate;
 
-                switch (bundle)
+                switch (GetDuration(bundle))
                 {
                     case "15 Days":
                         endDate = startDate.AddDays(14);
@@ -110,11 +111,11 @@ namespace GymManagementSystem
                     worksheet.Cells[row, 1].Value = fullName;
                     worksheet.Cells[row, 2].Value = phoneNumber;
                     worksheet.Cells[row, 3].Value = weight;
-                    worksheet.Cells[row, 4].Value = bundle + " " + subsciptionType;
+                    worksheet.Cells[row, 4].Value = bundle + " " + supscriptiontype;
                     worksheet.Cells[row, 5].Value = startDate.ToShortDateString();
                     worksheet.Cells[row, 6].Value = endDate.ToShortDateString();
                     worksheet.Cells[row, 7].Value = "No";
-                    worksheet.Cells[1, 8].Value = Sessions;
+                    worksheet.Cells[row, 8].Value = Sessions;
                     package.Save();
                     return true;
                 }
@@ -124,6 +125,12 @@ namespace GymManagementSystem
                 MessageBox.Show($"Error adding client: {ex.Message}");
                 return false;
             }
+        }
+
+        public static string GetDuration(string bundle)
+        {
+            var parts = bundle.Split(' ');
+            return parts.Length >= 2 ? $"{parts[0]} {parts[1]}" : bundle;
         }
 
         public static List<Client> LoadAllClients()
@@ -157,19 +164,13 @@ namespace GymManagementSystem
                         client.PhoneNumber = worksheet.Cells[row, 2].Value?.ToString() ?? "";
 
                         string weightString = worksheet.Cells[row, 3].Value?.ToString();
-                        if (!string.IsNullOrEmpty(weightString) && double.TryParse(weightString, NumberStyles.Any, CultureInfo.InvariantCulture, out double weight))
-                        {
-                            client.Weight = weight;
-                        }
-                        else
-                        {
-                            client.Weight = 0;
-                            MessageBox.Show($"Invalid weight format at row {row}. Setting weight to 0.");
-                        }
+
+                        client.Weight = double.TryParse(weightString, out double weight) ? weight : 0.0;
 
                         client.SubscriptionType = worksheet.Cells[row, 4].Value?.ToString() ?? "";
 
                         string startDateString = worksheet.Cells[row, 5].Value?.ToString();
+
                         if (!string.IsNullOrEmpty(startDateString) && DateTime.TryParse(startDateString, out DateTime start))
                         {
                             client.SubscriptionStart = start;
@@ -194,15 +195,9 @@ namespace GymManagementSystem
                         client.IsFrozen = worksheet.Cells[row, 7].Value?.ToString() == "Yes";
 
                         string sessionsString = worksheet.Cells[row, 8].Value?.ToString();
-                        if (!string.IsNullOrEmpty(sessionsString) && int.TryParse(sessionsString, NumberStyles.Any, CultureInfo.InvariantCulture, out int sessions))
-                        {
-                            client.Sessions = sessions;
-                        }
-                        else
-                        {
-                            client.Sessions = 0;
-                            MessageBox.Show($"Invalid weight format at row {row}. Setting weight to 0.");
-                        }
+
+                        client.Sessions = int.TryParse(sessionsString, out int session) ? session : 0;
+
                         clients.Add(client);
                     }
                 }
@@ -542,7 +537,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool RenewClientSubscription(string phoneNumber, string bundleDurition, string subscriptionType, int Sessions)
+        public static bool RenewClientSubscription(string phoneNumber, string bundleDurition, string subscriptionType, string Sessions)
         {
             try
             {
@@ -568,8 +563,8 @@ namespace GymManagementSystem
                         {
                             DateTime newStartDate = DateTime.Today;
                             DateTime newEndDate;
-
-                            switch (bundleDurition)
+                            string Sessionss = GetSessions(bundleDurition);
+                            switch (GetDuration(bundleDurition))
                             {
                                 case "15 Days":
                                     newEndDate = newStartDate.AddDays(14);
@@ -587,13 +582,12 @@ namespace GymManagementSystem
                                     newEndDate = newStartDate;
                                     break;
                             }
-
-                            worksheet.Cells[row, 4].Value = bundleDurition + " " + subscriptionType;
+                            string subscription = bundleDurition + " " + subscriptionType;
+                            worksheet.Cells[row, 4].Value = subscription;
                             worksheet.Cells[row, 5].Value = newStartDate.ToShortDateString();
                             worksheet.Cells[row, 6].Value = newEndDate.ToShortDateString();
                             worksheet.Cells[row, 7].Value = "No";
-                            string subscription = bundleDurition + " " + subscriptionType + " " + Sessions + " Sessions";
-                            AddIncomeEntry(worksheet.Cells[row, 1].Value.ToString(), phoneNumber, subscription);
+                            worksheet.Cells[row, 8].Value = Sessions;
                             package.Save();
                             return true;
                         }
@@ -617,7 +611,7 @@ namespace GymManagementSystem
                 using (var package = new ExcelPackage(fileInfo))
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets["Logs"] ?? package.Workbook.Worksheets.Add("Logs");
-
+                    ExcelWorksheet Clientsworksheet = package.Workbook.Worksheets["Clients"];
                     int row = worksheet.Dimension?.Rows + 1 ?? 2;
 
                     if (row == 2)
@@ -633,6 +627,15 @@ namespace GymManagementSystem
                     worksheet.Cells[row, 2].Value = phone;
                     worksheet.Cells[row, 3].Value = now.ToShortDateString();
                     worksheet.Cells[row, 4].Value = now.ToString("hh:mm:ss tt");
+
+                    for (int i = 2; i <= Clientsworksheet.Dimension.Rows; i++)
+                    {
+                        if (Clientsworksheet.Cells[i, 2].Value?.ToString() == phone)
+                        {
+                            Clientsworksheet.Cells[i, 8].Value = int.Parse(Clientsworksheet.Cells[i, 8].Value.ToString()) - 1;
+                            break;
+                        }
+                    }
 
                     package.Save();
                     return true;
@@ -689,21 +692,37 @@ namespace GymManagementSystem
         {
             switch (bundle)
             {
-                case "15 Days Gym only 0 Sessions": return 200;
-                case "15 Days Gym and cardio 0 Sessions": return 250;
-                case "1 Month Gym only 0 Sessions": return 300;
-                case "1 Month Gym and cardio 0 Sessions": return 350;
-                case "3 Months Gym only 45 Sessions": return 600;
-                case "3 Months Gym only 90 Sessions": return 750;
-                case "3 Months Gym and cardio 45 Sessions": return 750;
-                case "3 Months Gym and cardio 90 Sessions": return 900;
-                case "6 Months Gym only 90 Sessions": return 1100;
-                case "6 Months Gym only 180 Sessions": return 1200;
-                case "6 Months Gym and cardio 90 Sessions": return 1200;
-                case "6 Months Gym and cardio 180 Sessions": return 1500;
+                case "15 Days 15 Sessions Gym only": return 200;
+                case "15 Days 15 Sessions Gym and cardio": return 250;
+                case "1 Month 30 Sessions Gym only": return 300;
+                case "1 Month 30 Sessions Gym and cardio": return 350;
+                case "3 Months 45 Sessions Gym only": return 600;
+                case "3 Months 90 Sessions Gym only": return 750;
+                case "3 Months 45 Sessions Gym and cardio": return 750;
+                case "3 Months 90 Sessions Gym and cardio": return 900;
+                case "6 Months 90 Sessions Gym only": return 1100;
+                case "6 Months 180 Sessions Gym only": return 1200;
+                case "6 Months 90 Sessions Gym and cardio": return 1200;
+                case "6 Months 180 Sessions Gym and cardio": return 1500;
                 default: return 0;
             }
         }
+
+        public static string GetSessions(string bundle)
+        {
+            var bundleSessions = new Dictionary<string, string>
+            {
+                { "15 Days 15 Sessions", "15" },
+                { "1 Month 30 Sessions", "30" },
+                { "3 Months 45 Sessions", "45" },
+                { "3 Months 90 Sessions", "90" },
+                { "6 Months 90 Sessions", "90" },
+                { "6 Months 180 Sessions", "180" }
+            };
+
+            return bundleSessions.TryGetValue(bundle, out string sessions) ? sessions : "0";
+        }
+
 
         public static (DateTime start, DateTime end) GetDateRange(string filter)
         {

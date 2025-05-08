@@ -13,7 +13,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width = "Auto" />
@@ -36,32 +35,16 @@
                     <Setter Property="FontSize" Value="15"/>
                 </Style>
             </ComboBox.ItemContainerStyle>
-            <ComboBoxItem Content="15 Days"/>
-            <ComboBoxItem Content="1 Month"/>
-            <ComboBoxItem Content="3 Months"/>
-            <ComboBoxItem Content="6 Months"/>
+            <ComboBoxItem Content="15 Days 15 Sessions"/>
+            <ComboBoxItem Content="1 Month 30 Sessions"/>
+            <ComboBoxItem Content="3 Months 45 Sessions"/>
+            <ComboBoxItem Content="3 Months 90 Sessions"/>
+            <ComboBoxItem Content="6 Months 90 Sessions"/>
+            <ComboBoxItem Content="6 Months 180 Sessions"/>
         </ComboBox>
-
-        <TextBlock x:Name="sessiontxt" Text="Sessions: " Grid.Row="1" Grid.Column="0" Foreground="White"/>
-        <ComboBox x:Name="SessionstypeBox" Grid.Row="1" Grid.Column="1" Margin="0 5 0 20">
-            <ComboBox.ItemContainerStyle>
-                <Style TargetType="ComboBoxItem">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Background">
-                        <Setter.Value>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="Black" Offset="0.0"/>
-                                <GradientStop Color="Gold" Offset="1.0"/>
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="FontSize" Value="15"/>
-                </Style>
-            </ComboBox.ItemContainerStyle>
-        </ComboBox>
-
-        <TextBlock Text="Subscription Type: " Grid.Row="2" Grid.Column="0" Foreground="White"/>
-        <ComboBox x:Name="SubscipriontypeBox" Grid.Row="2" Grid.Column="1" Margin="0,5,0,40">
+        
+        <TextBlock Text="Subscription Type: " Grid.Row="1" Grid.Column="0" Foreground="White"/>
+        <ComboBox x:Name="SubscipriontypeBox" Grid.Row="1" Grid.Column="1" Margin="0,5,0,40">
             <ComboBox.ItemContainerStyle>
                 <Style TargetType="ComboBoxItem">
                     <Setter Property="Foreground" Value="White"/>
@@ -80,7 +63,7 @@
             <ComboBoxItem Content="Gym and cardio"/>
         </ComboBox>
 
-        <StackPanel Grid.Row="3" Grid.ColumnSpan= "2" Orientation= "Horizontal" HorizontalAlignment= "Center" VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan= "2" Orientation= "Horizontal" HorizontalAlignment= "Center" VerticalAlignment="Bottom">
             <Button x:Name= "btnConfirm" Content= "Confirm" Width= "75" Margin= "0,0,10,0" Click= "btnConfirm_Click" Background="Gold"/>
             <Button x:Name= "btnCancel" Content= "Cancel" Width= "75" Click= "btnCancel_Click" Background="Gold" />
         </StackPanel>

@@ -22,11 +22,6 @@ namespace GymManagementSystem
         public RenewBundleDialog()
         {
             InitializeComponent();
-            SessionstypeBox.Items.Add("");
-            SessionstypeBox.Items.Add("45");
-            SessionstypeBox.Items.Add("90");
-            SessionstypeBox.Items.Add("180");
-            SessionstypeBox.SelectedIndex = 0;
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)

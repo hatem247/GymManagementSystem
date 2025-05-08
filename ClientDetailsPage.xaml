@@ -46,7 +46,7 @@
             <TextBlock x:Name="txtSubscription" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Margin="300, 0, 0, 0">
+        <StackPanel Grid.Row="2" Margin="400, 0, 0, 0">
             <TextBlock Text="Start Date" Foreground="LightGray" FontSize="25"/>
             <TextBlock x:Name="txtStart" FontWeight="Bold" Foreground="#FFD4AF37" FontSize="20"/>
             <TextBlock Text="End Date" Foreground="LightGray" FontSize="25"/>
