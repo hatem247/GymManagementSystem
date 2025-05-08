@@ -27,13 +27,13 @@ namespace GymManagementSystem
         {
             InitializeComponent();
             IncomeDataGrid.ItemsSource = Incomes;
-            IncomeFilterComboBox.SelectedIndex = 0;
-            LoadIncome(IncomeFilterComboBox.Text);
+            LoadIncome();
+            LoadCurrentMonthIncome();
         }
 
-        private void LoadIncome(string filter)
+        private void LoadIncome(DateTime? dateTime = null)
         {
-            var IncomesFromExcel = ExcelHelper.GetIncome(filter);
+            var IncomesFromExcel = ExcelHelper.GetIncome(dateTime);
             int total = 0;
             Incomes.Clear();
             foreach (var income in IncomesFromExcel)
@@ -41,12 +41,40 @@ namespace GymManagementSystem
                 Incomes.Add(income);
                 if(income.Date == DateTime.Today.ToShortDateString()) total += int.Parse(income.Amount);
             }
-            totaltxt.Text = $"Today's Income: {total}";
+            totaltodaytxt.Text = $"Today's Income: {total}";
         }
+
+        private void IncomeDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IncomeDatePicker.SelectedDate != null)
+            {
+                LoadIncome(IncomeDatePicker.SelectedDate);
+            }
+        }
+
+        private void LoadCurrentMonthIncome()
+        {
+            var incomesFromExcel = ExcelHelper.GetIncome();
+            int total = 0;
+
+            foreach (var income in incomesFromExcel)
+            {
+                if (DateTime.TryParse(income.Date, out DateTime parsedDate))
+                {
+                    if (parsedDate.Month == DateTime.Today.Month && parsedDate.Year == DateTime.Today.Year)
+                    {
+                        total += int.Parse(income.Amount);
+                    }
+                }
+            }
+
+            totalmonthtxt.Text = $"This Month's Income: {total}";
+        }
+
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            LoadIncome(IncomeFilterComboBox.Text);
+            LoadIncome(IncomeDatePicker.SelectedDate);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

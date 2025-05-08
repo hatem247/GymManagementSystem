@@ -7,43 +7,35 @@
             <GradientStop Color="#FF3E2F1C" Offset="1"/>
         </LinearGradientBrush>
     </Page.Background>
-
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Ellipse Width="30" Height="30" HorizontalAlignment="Left" MouseLeftButtonDown="Back_Click" Margin="5" VerticalAlignment="Top">
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="/Images/back.png"/>
-                </Ellipse.Fill>
-            </Ellipse>
-
-            <Border Grid.Row="1" Background="#FF2E2E2E" CornerRadius="15" Padding="30" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
-               <StackPanel>
-                    <TextBlock Text="Add New Client" Foreground="White" FontSize="30" HorizontalAlignment="Center" Margin="0 0 0 20"/>
-                </StackPanel>
-           </Border>
         </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <Border Background="#FF2E2E2E" CornerRadius="15" Padding="30" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel>
+                    <Ellipse Width="30" Height="30" HorizontalAlignment="Left" MouseLeftButtonDown="Back_Click" Margin="5" VerticalAlignment="Top">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="/Images/back.png"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
                     <TextBlock Text="Add New Client" Foreground="White" FontSize="30" HorizontalAlignment="Center" Margin="0 0 0 20" FontWeight="Bold"/>
 
-                    <TextBlock Text="Full Name" Foreground="White" FontSize="20"/>
-                    <TextBox x:Name="FullNameBox" Margin="10,10,10,10"  Width="320" Height="40" FontSize="18" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
+                    <TextBlock Text="Full Name" Foreground="White" FontSize="15"/>
+                    <TextBox x:Name="FullNameBox" Margin="5"  Width="320" Height="30" FontSize="15" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
 
-                    <TextBlock Text="Phone Number" Foreground="White" FontSize="20"/>
-                    <TextBox x:Name="PhoneNumberBox" Margin="10,10,10,10"  Width="320" Height="40" FontSize="18" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
+                    <TextBlock Text="Phone Number" Foreground="White" FontSize="15"/>
+                    <TextBox x:Name="PhoneNumberBox" Margin="5"  Width="320" Height="30" FontSize="15" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
 
 
-                    <TextBlock Text="Weight (kg)" Foreground="White" FontSize="20"/>
-                    <TextBox x:Name="WeightBox" Margin="10,10,10,10"  Width="320" Height="40" FontSize="18" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
+                    <TextBlock Text="Weight (kg)" Foreground="White" FontSize="15"/>
+                    <TextBox x:Name="WeightBox" Margin="5"  Width="320" Height="30" FontSize="15" VerticalContentAlignment="Center" Background="Black" BorderBrush="Gold" BorderThickness="2" Foreground="White"/>
 
-                    <TextBlock Text="Subscription Bundle" Foreground="White" FontSize="20"/>
-                    <ComboBox x:Name="BundleBox" Height="40" Margin="10,10,10,10"  Width="320">
+                    <TextBlock Text="Subscription Bundle" Foreground="White" FontSize="15"/>
+                    <ComboBox x:Name="BundleBox" Height="30" Margin="5"  Width="320">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
                                 <Setter Property="Foreground" Value="White"/>
@@ -66,8 +58,8 @@
                         <ComboBoxItem Content="6 Months 180 Sessions"/>
                     </ComboBox>
 
-                    <TextBlock Text="Subscription Type" Foreground="White" FontSize="20"/>
-                    <ComboBox Width="320" x:Name="SubscipriontypeBox" Height="40" Margin="10,10,10,10">
+                    <TextBlock Text="Subscription Type" Foreground="White" FontSize="15"/>
+                    <ComboBox Width="320" x:Name="SubscipriontypeBox" Height="30" Margin="5">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">
                                 <Setter Property="Foreground" Value="White"/>
@@ -88,13 +80,13 @@
                     </ComboBox>
 
                     <Button Content="Save Client" Click="SaveClient_Click"
-                Background="Gold" Foreground="Black" Padding="10" FontWeight="Bold" FontSize="20" />
-                    <TextBlock x:Name="StatusText" Foreground="Gold" Margin="0 10 0 0" TextAlignment="Center"/>
+                Background="Gold" Foreground="Black" Margin="5" Padding="5" FontWeight="Bold" FontSize="15" />
+                    <TextBlock x:Name="StatusText" Foreground="Gold" Margin="5" TextAlignment="Center"/>
 
-                    <TextBlock Text="Client Barcode" Foreground="White" Margin="0 10 0 10"/>
-                    <Image x:Name="BarcodeImage" Width="300" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Client Barcode" Foreground="White" Margin="5"/>
+                    <Image x:Name="BarcodeImage" Width="300" Height="100"/>
                     <Button x:Name="Savebtn" Content="Save Barcode" Visibility="Hidden" Click="SaveBarcode_Click"
-            Background="Gold" Foreground="Black" Padding="5" FontWeight="Bold" FontSize="15" Width="200" Height="40" Margin="5"/>
+            Background="Gold" Foreground="Black" Padding="5" FontWeight="Bold" FontSize="15" Width="200" Height="30" Margin="5"/>
                 </StackPanel>
             </Border>
         </ScrollViewer>

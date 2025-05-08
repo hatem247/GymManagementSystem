@@ -31,28 +31,25 @@
         <!-- Content -->
         <StackPanel Grid.Row="1" Margin="10">
             <!-- ComboBox with gentle black/gold style -->
-            <ComboBox x:Name="LogsFilterComboBox" Width="200" Height="30" Margin="10">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
+            <DatePicker x:Name="LogsDatePicker"
+            Width="200"
+            Height="30"
+            Margin="10"
+            SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+            Foreground="White"
+            Background="Black"
+            FontSize="15">
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
                         <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="Black" Offset="0.0"/>
-                                    <GradientStop Color="Gold" Offset="1.0"/>
-                                </LinearGradientBrush>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="Background" Value="Black"/>
                     </Style>
-                </ComboBox.ItemContainerStyle>
-                <ComboBoxItem Content=""/>
-                <ComboBoxItem Content="Today"/>
-                <ComboBoxItem Content="Yesterday"/>
-                <ComboBoxItem Content="Last Week"/>
-                <ComboBoxItem Content="Last Month"/>
-            </ComboBox>
-
+                    <Style TargetType="Calendar">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
             <Button Content="Refresh" Click="Refresh_Click"
                 Background="Gold" Width="100" Height="30" Foreground="Black" Margin="10, 0, 10, 10" FontWeight="Bold" FontSize="15" />
             

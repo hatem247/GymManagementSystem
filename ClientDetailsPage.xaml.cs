@@ -55,7 +55,7 @@ namespace GymManagementSystem
 
         private void LoadClientLogs(string phoneNumber)
         {
-            var logs = ExcelHelper.GetLogs("");
+            var logs = ExcelHelper.GetLogs();
             var filtered = logs.Where(l => l.Phone == phoneNumber).ToList();
             LogsDataGrid.ItemsSource = filtered;
         }

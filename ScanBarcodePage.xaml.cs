@@ -43,7 +43,7 @@ namespace GymManagementSystem
             bool logt = false;
             if (client != null)
             {
-                var logs = ExcelHelper.GetLogs("");
+                var logs = ExcelHelper.GetLogs();
                 var filtered = logs.Where(l => l.Phone == client.PhoneNumber).ToList();
                 foreach(var log in filtered)
                 {

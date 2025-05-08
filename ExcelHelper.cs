@@ -441,7 +441,7 @@ namespace GymManagementSystem
                     if (client.SubscriptionType == "3 Months") oldEndDate = client.SubscriptionStart.AddMonths(3);
                     else oldEndDate = client.SubscriptionStart.AddMonths(6);
                     daysFreezed = (client.SubscriptionEnd - oldEndDate).Days;
-                    var logs = GetLogs("");
+                    var logs = GetLogs();
                     var filtered = logs.Where(l => l.Phone == phoneNumber).ToList();
                     DateTime lastlog = DateTime.Parse(filtered[filtered.Count - 1].Date);
                     int actualFreezed = (DateTime.Today - lastlog).Days;
@@ -723,7 +723,6 @@ namespace GymManagementSystem
             return bundleSessions.TryGetValue(bundle, out string sessions) ? sessions : "0";
         }
 
-
         public static (DateTime start, DateTime end) GetDateRange(string filter)
         {
             var today = DateTime.Today;
@@ -747,7 +746,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static List<LogEntry> GetLogs(string filter)
+        public static List<LogEntry> GetLogs()
         {
             List<LogEntry> logs = new List<LogEntry>();
             FileInfo fileInfo = new FileInfo(excelPath);
@@ -785,22 +784,117 @@ namespace GymManagementSystem
             {
                 MessageBox.Show($"Error getting logs: {ex.Message}");
             }
-            if(filter == "") return logs;
-            else
-            {
-                var (start, end) = GetDateRange(filter);
-                return logs.Where(i =>
-                {
-                    if (DateTime.TryParse(i.Date, out DateTime parsedDate))
-                    {
-                        return parsedDate >= start && parsedDate <= end;
-                    }
-                    return false;
-                }).ToList();
-            }
+            return logs;
         }
 
-        public static List<IncomeEntry> GetIncome(string filter)
+        public static List<LogEntry> GetLogs(DateTime? selectedDate)
+        {
+            List<LogEntry> logs = new List<LogEntry>();
+            FileInfo fileInfo = new FileInfo(excelPath);
+
+            if (!fileInfo.Exists)
+            {
+                MessageBox.Show($"Log file not found: {excelPath}");
+                return logs;
+            }
+
+            try
+            {
+                using (var package = new ExcelPackage(fileInfo))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Logs"];
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Worksheet 'Logs' not found.");
+                        return logs;
+                    }
+
+                    int rows = worksheet.Dimension.Rows;
+                    for (int row = 2; row <= rows; row++)
+                    {
+                        logs.Add(new LogEntry
+                        {
+                            Name = worksheet.Cells[row, 1].Text,
+                            Phone = worksheet.Cells[row, 2].Text,
+                            Date = worksheet.Cells[row, 3].Text,
+                            Time = worksheet.Cells[row, 4].Text
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error getting logs: {ex.Message}");
+            }
+
+            // Filter by selected date if provided
+            if (selectedDate.HasValue)
+            {
+                DateTime targetDate = selectedDate.Value.Date;
+                logs = logs.Where(log =>
+                    DateTime.TryParse(log.Date, out DateTime logDate) &&
+                    logDate.Date == targetDate
+                ).ToList();
+            }
+
+            return logs;
+        }
+        
+        public static List<IncomeEntry> GetIncome(DateTime? selectedDate)
+        {
+            List<IncomeEntry> Income = new List<IncomeEntry>();
+            FileInfo fileInfo = new FileInfo(excelPath);
+
+            if (!fileInfo.Exists)
+            {
+                MessageBox.Show($"Income file not found: {excelPath}");
+                return Income;
+            }
+
+            try
+            {
+                using (var package = new ExcelPackage(fileInfo))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Income"];
+                    if (worksheet == null)
+                    {
+                        MessageBox.Show("Worksheet 'Income' not found.");
+                        return Income;
+                    }
+
+                    int rows = worksheet.Dimension.Rows;
+                    for (int row = 2; row <= rows; row++)
+                    {
+                        Income.Add(new IncomeEntry
+                        {
+                            Name = worksheet.Cells[row, 1].Text,
+                            Phone = worksheet.Cells[row, 2].Text,
+                            Date = worksheet.Cells[row, 3].Text,
+                            Time = worksheet.Cells[row, 4].Text,
+                            Amount = worksheet.Cells[row, 5].Text
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error getting INcome: {ex.Message}");
+            }
+
+            // Filter by selected date if provided
+            if (selectedDate.HasValue)
+            {
+                DateTime targetDate = selectedDate.Value.Date;
+                Income = Income.Where(income =>
+                    DateTime.TryParse(income.Date, out DateTime IncomeData) &&
+                    IncomeData.Date == targetDate
+                ).ToList();
+            }
+
+            return Income;
+        }
+
+        public static List<IncomeEntry> GetIncome()
         {
             List<IncomeEntry> incomes = new List<IncomeEntry>();
             FileInfo fileInfo = new FileInfo(excelPath);
@@ -839,24 +933,7 @@ namespace GymManagementSystem
             {
                 MessageBox.Show($"Error getting income: {ex.Message}");
             }
-
-            if(filter == "")
-            {
-                return incomes;
-            }
-
-            else
-            {
-                var (start, end) = GetDateRange(filter);
-                return incomes.Where(i =>
-                {
-                    if (DateTime.TryParse(i.Date, out DateTime parsedDate))
-                    {
-                        return parsedDate >= start && parsedDate <= end;
-                    }
-                    return false;
-                }).ToList();
-            }
+            return incomes;
         }
 
     }

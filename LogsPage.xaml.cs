@@ -17,13 +17,12 @@ namespace GymManagementSystem
         {
             InitializeComponent();
             LogsDataGrid.ItemsSource = Logs;
-            LogsFilterComboBox.SelectedIndex = 0;
-            LoadLogs(LogsFilterComboBox.Text);
+            LoadLogs();
         }
 
-        private void LoadLogs(string filter)
+        private void LoadLogs(DateTime? selectedDate = null)
         {
-            var logsFromExcel = ExcelHelper.GetLogs(filter);
+            var logsFromExcel = ExcelHelper.GetLogs(selectedDate);
             Logs.Clear();
             foreach (var log in logsFromExcel)
             {
@@ -33,7 +32,7 @@ namespace GymManagementSystem
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            LoadLogs(LogsFilterComboBox.Text);
+            LoadLogs(LogsDatePicker.SelectedDate);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
