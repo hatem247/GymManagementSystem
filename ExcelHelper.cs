@@ -552,8 +552,8 @@ namespace GymManagementSystem
                             worksheet.Cells[row, 4].Value = subscription;
                             worksheet.Cells[row, 5].Value = newStartDate.ToShortDateString();
                             worksheet.Cells[row, 6].Value = newEndDate.ToShortDateString();
-                            worksheet.Cells[row, 7].Value = "No";
-                            worksheet.Cells[row, 8].Value = Sessions;
+                            worksheet.Cells[row, 7].Value = Sessions;
+                            worksheet.Cells[row, 8].Value = "No";
                             package.Save();
                             return true;
                         }

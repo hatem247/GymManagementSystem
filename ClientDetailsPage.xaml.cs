@@ -32,8 +32,9 @@ namespace GymManagementSystem
             int sessionssLeft = client.Sessions;
             txtDaysLeft.Text = daysLeft >= 0 ? $"{daysLeft} days" : "Expired";
             txtSessionsLeft.Text = sessionssLeft >= 0 ? $"{sessionssLeft} sessions" : "Expired";
-
+            
             btnFreeze.Content = client.IsFrozen ? "Continue" : "Freeze";
+            LoadClientLogs(client.PhoneNumber);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
