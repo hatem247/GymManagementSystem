@@ -69,9 +69,8 @@ namespace GymManagementSystem
             }
             else
             {
-                startDate = dateTime.Value;
-                endDate = new DateTime(startDate.Year, startDate.Month,
-                                       DateTime.DaysInMonth(startDate.Year, startDate.Month));
+                endDate = dateTime.Value;
+                startDate = new DateTime(startDate.Year, startDate.Month,1);
             }
 
             foreach (var income in incomesFromExcel)
