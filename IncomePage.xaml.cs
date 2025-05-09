@@ -55,40 +55,29 @@ namespace GymManagementSystem
 
         private void LoadMonthIncome(DateTime? dateTime = null)
         {
-            var incomesFromExcel = ExcelHelper.GetIncome(dateTime);
+            var incomesFromExcel = ExcelHelper.GetIncome();
+
+            DateTime targetDate = dateTime ?? DateTime.Today;
+            DateTime startOfMonth = new DateTime(targetDate.Year, targetDate.Month, 1);
+
             int total = 0;
-
-            DateTime startDate;
-            DateTime endDate;
-
-            if (dateTime == null)
-            {
-                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month,
-                                       DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
-            }
-            else
-            {
-                endDate = dateTime.Value;
-                startDate = new DateTime(startDate.Year, startDate.Month,1);
-            }
 
             foreach (var income in incomesFromExcel)
             {
                 if (DateTime.TryParse(income.Date, out DateTime parsedDate))
                 {
-                    if (parsedDate >= startDate && parsedDate <= endDate)
+                    if (parsedDate >= startOfMonth && parsedDate <= targetDate)
                     {
-                        if (int.TryParse(income.Amount, out int amount))
-                            total += amount;
+                        total += int.Parse(income.Amount);
                     }
                 }
             }
 
             totalmonthtxt.Text = dateTime == null
                 ? $"This Month's Income: {total}"
-                : $"Income from {startDate:dd/MM/yyyy} to {endDate:dd/MM/yyyy}: {total}";
+                : $"Income from {startOfMonth:dd/MM/yyyy} to {targetDate:dd/MM/yyyy}: {total}";
         }
+
 
 
 
