@@ -17,8 +17,8 @@
         <StackPanel>
             <TextBlock x:Name="Messagetxt" FontSize="20" Foreground="Gold" HorizontalAlignment="Center" FontWeight="Bold">Text</TextBlock>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Confirm" Width="124" Margin="10" Click="ConfirmButton_Click" Background="Gold"/>
-                <Button Content="Cancel" Width="124" Margin="10" Click="CancelButton_Click" Background="Gold"/>
+                <Button Content="Confirm" Width="124" Margin="10" FontSize="15" FontWeight="Bold" Click="ConfirmButton_Click" Background="Gold"/>
+                <Button Content="Cancel" Width="124" Margin="10" FontSize="15" FontWeight="Bold" Click="CancelButton_Click" Background="Gold"/>
             </StackPanel>
         </StackPanel>
     </Grid>

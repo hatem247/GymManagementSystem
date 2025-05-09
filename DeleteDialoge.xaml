@@ -11,8 +11,8 @@
     </Window.Background>
     <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Delete" Width="124" Margin="10" Click="DeleteButton_Click" Background="Gold"/>
-            <Button Content="Cancel" Width="124" Margin="10" Click="CancelButton_Click" Background="Gold"/>
+            <Button Content="Delete" Width="124" FontSize="15" FontWeight="Bold" Margin="10" Click="DeleteButton_Click" Background="Gold"/>
+            <Button Content="Cancel" Width="124" Margin="10" FontSize="15" FontWeight="Bold" Click="CancelButton_Click" Background="Gold"/>
         </StackPanel>
     </Grid>
 </Window>

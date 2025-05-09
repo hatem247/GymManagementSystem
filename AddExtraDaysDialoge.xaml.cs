@@ -22,7 +22,7 @@ namespace GymManagementSystem
         public AddExtraDaysDialoge()
         {
             InitializeComponent();
-            for (int i = 10; i <= 40; i++)
+            for (int i = 1; i <= 40; i++)
             {
                 ExtraDaysComboBox.Items.Add(i);
             }

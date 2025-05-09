@@ -65,9 +65,8 @@ namespace GymManagementSystem
             if (client.IsFrozen)
             {
                 // Unfreeze the client
-                ExcelHelper.UnfreezeClient(client.PhoneNumber);
+                ExcelHelper.ToggleFreezeClient(client.PhoneNumber);
                 DisplayClientInfo();
-                MessageBox.Show("Client has been unfrozen.");
                 client.IsFrozen = false;
                 btnFreeze.Content = "Freeze";
             }
@@ -83,10 +82,8 @@ namespace GymManagementSystem
                     var freezeDialog = new FreezeDialog();
                     if (freezeDialog.ShowDialog() == true)
                     {
-                        int days = freezeDialog.SelectedDays;
-                        ExcelHelper.FreezeClient(client.PhoneNumber, days);
+                        ExcelHelper.ToggleFreezeClient(client.PhoneNumber);
                         DisplayClientInfo();
-                        MessageBox.Show($"Client frozen for {days} day(s).");
                         client.IsFrozen = true;
                         btnFreeze.Content = "Continue";
                     }
@@ -131,7 +128,6 @@ namespace GymManagementSystem
                 {
                     ExcelHelper.RenewClientSubscription(client.PhoneNumber, selectedBundle, selectedSubscipriontype, Sessions);
                     ExcelHelper.AddIncomeEntry(client.FullName, client.PhoneNumber, sub);
-                    ExcelHelper.AddLogEntry(client.FullName, client.PhoneNumber);
                     DisplayClientInfo();
 
                     MessageBox.Show($"Subscription renewed to {client.FullName} for {selectedBundle} month(s).");

@@ -28,7 +28,7 @@ namespace GymManagementSystem
             InitializeComponent();
             IncomeDataGrid.ItemsSource = Incomes;
             LoadIncome();
-            LoadCurrentMonthIncome();
+            LoadMonthIncome();
         }
 
         private void LoadIncome(DateTime? dateTime = null)
@@ -49,32 +49,54 @@ namespace GymManagementSystem
             if (IncomeDatePicker.SelectedDate != null)
             {
                 LoadIncome(IncomeDatePicker.SelectedDate);
+                LoadMonthIncome(IncomeDatePicker.SelectedDate);
             }
         }
 
-        private void LoadCurrentMonthIncome()
+        private void LoadMonthIncome(DateTime? dateTime = null)
         {
-            var incomesFromExcel = ExcelHelper.GetIncome();
+            var incomesFromExcel = ExcelHelper.GetIncome(dateTime);
             int total = 0;
+
+            DateTime startDate;
+            DateTime endDate;
+
+            if (dateTime == null)
+            {
+                startDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                endDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month,
+                                       DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
+            }
+            else
+            {
+                startDate = dateTime.Value;
+                endDate = new DateTime(startDate.Year, startDate.Month,
+                                       DateTime.DaysInMonth(startDate.Year, startDate.Month));
+            }
 
             foreach (var income in incomesFromExcel)
             {
                 if (DateTime.TryParse(income.Date, out DateTime parsedDate))
                 {
-                    if (parsedDate.Month == DateTime.Today.Month && parsedDate.Year == DateTime.Today.Year)
+                    if (parsedDate >= startDate && parsedDate <= endDate)
                     {
-                        total += int.Parse(income.Amount);
+                        if (int.TryParse(income.Amount, out int amount))
+                            total += amount;
                     }
                 }
             }
 
-            totalmonthtxt.Text = $"This Month's Income: {total}";
+            totalmonthtxt.Text = dateTime == null
+                ? $"This Month's Income: {total}"
+                : $"Income from {startDate:dd/MM/yyyy} to {endDate:dd/MM/yyyy}: {total}";
         }
+
 
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             LoadIncome(IncomeDatePicker.SelectedDate);
+            LoadMonthIncome(IncomeDatePicker.SelectedDate);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

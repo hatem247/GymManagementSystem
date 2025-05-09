@@ -64,8 +64,8 @@
         </ComboBox>
 
         <StackPanel Grid.Row="2" Grid.ColumnSpan= "2" Orientation= "Horizontal" HorizontalAlignment= "Center" VerticalAlignment="Bottom">
-            <Button x:Name= "btnConfirm" Content= "Confirm" Width= "75" Margin= "0,0,10,0" Click= "btnConfirm_Click" Background="Gold"/>
-            <Button x:Name= "btnCancel" Content= "Cancel" Width= "75" Click= "btnCancel_Click" Background="Gold" />
+            <Button x:Name= "btnConfirm" FontSize="15" FontWeight="Bold" Content= "Confirm" Width= "80" Margin="5" Click= "btnConfirm_Click" Background="Gold"/>
+            <Button x:Name= "btnCancel" FontSize="15" FontWeight="Bold" Content= "Cancel" Width= "80" Margin="5" Click= "btnCancel_Click" Background="Gold" />
         </StackPanel>
     </Grid>
 </Window>

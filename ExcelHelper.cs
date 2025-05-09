@@ -40,8 +40,8 @@ namespace GymManagementSystem
                             SubscriptionType = sheet.Cells[i, 4].Text,
                             SubscriptionStart = DateTime.Parse(sheet.Cells[i, 5].Text),
                             SubscriptionEnd = DateTime.Parse(sheet.Cells[i, 6].Text),
-                            IsFrozen = sheet.Cells[i, 7].Text.ToLower() == "true",
-                            Sessions = int.TryParse(sheet.Cells[i, 8].Text, out int sessions) ? sessions : 0
+                            IsFrozen = sheet.Cells[i, 8].Text.ToLower() == "true",
+                            Sessions = int.TryParse(sheet.Cells[i, 7].Text, out int sessions) ? sessions : 0
                         };
                         package.Save();
                         return client;
@@ -51,7 +51,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool AddClient(string fullName, string weight, string bundle, string supscriptiontype,string Sessions, string phoneNumber)
+        public static bool AddClient(string fullName, string weight, string bundle, string supscriptiontype, string Sessions, string phoneNumber)
         {
             try
             {
@@ -104,8 +104,8 @@ namespace GymManagementSystem
                         worksheet.Cells[1, 4].Value = "Subscription";
                         worksheet.Cells[1, 5].Value = "Start Date";
                         worksheet.Cells[1, 6].Value = "End Date";
-                        worksheet.Cells[1, 7].Value = "Frozen";
-                        worksheet.Cells[1, 8].Value = "Remaining Sessions";
+                        worksheet.Cells[1, 7].Value = "Remaining Sessions";
+                        worksheet.Cells[1, 8].Value = "Frozen";
                     }
 
                     worksheet.Cells[row, 1].Value = fullName;
@@ -114,8 +114,8 @@ namespace GymManagementSystem
                     worksheet.Cells[row, 4].Value = bundle + " " + supscriptiontype;
                     worksheet.Cells[row, 5].Value = startDate.ToShortDateString();
                     worksheet.Cells[row, 6].Value = endDate.ToShortDateString();
-                    worksheet.Cells[row, 7].Value = "No";
-                    worksheet.Cells[row, 8].Value = Sessions;
+                    worksheet.Cells[row, 7].Value = Sessions;
+                    worksheet.Cells[row, 8].Value = "No";
                     package.Save();
                     return true;
                 }
@@ -192,11 +192,11 @@ namespace GymManagementSystem
                             MessageBox.Show($"Invalid end date format at row {row}. Setting end date to MinValue.");
                         }
 
-                        client.IsFrozen = worksheet.Cells[row, 7].Value?.ToString() == "Yes";
-
-                        string sessionsString = worksheet.Cells[row, 8].Value?.ToString();
+                        string sessionsString = worksheet.Cells[row, 7].Value?.ToString();
 
                         client.Sessions = int.TryParse(sessionsString, out int session) ? session : 0;
+
+                        client.IsFrozen = worksheet.Cells[row, 8].Value?.ToString() == "Yes";
 
                         clients.Add(client);
                     }
@@ -329,7 +329,7 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool FreezeClient(string phoneNumber, int freezeDays)
+        public static bool ToggleFreezeClient(string phoneNumber)
         {
             try
             {
@@ -339,6 +339,16 @@ namespace GymManagementSystem
                     MessageBox.Show($"File not found: {excelPath}");
                     return false;
                 }
+
+                var logs = GetLogs();
+                var clientLogs = logs.Where(log => log.Phone == phoneNumber).ToList();
+                if (clientLogs.Count == 0)
+                {
+                    MessageBox.Show("No logs found for this client.");
+                    return false;
+                }
+
+                DateTime lastLogDate = DateTime.Parse(clientLogs.Last().Date);
 
                 using (var package = new ExcelPackage(fileInfo))
                 {
@@ -354,28 +364,40 @@ namespace GymManagementSystem
                         var cellValue = worksheet.Cells[row, 2].Value?.ToString();
                         if (cellValue == phoneNumber)
                         {
-                            if (DateTime.TryParse(worksheet.Cells[row, 6].Value?.ToString(), out DateTime endDate))
+                            string frozenStatus = worksheet.Cells[row, 8].Value?.ToString()?.Trim();
+                            DateTime currentEndDate;
+
+                            if (!DateTime.TryParse(worksheet.Cells[row, 6].Value?.ToString(), out currentEndDate))
                             {
-                                endDate = endDate.AddDays(freezeDays);
-                                worksheet.Cells[row, 6].Value = endDate.ToShortDateString();
+                                currentEndDate = DateTime.Today;
+                            }
+
+                            if (frozenStatus == "No")
+                            {
+                                worksheet.Cells[row, 8].Value = "Yes";
+                                MessageBox.Show("Client has been frozen.");
                             }
                             else
                             {
-                                worksheet.Cells[row, 6].Value = DateTime.Today.AddDays(freezeDays).ToShortDateString();
+                                int daysFrozen = (DateTime.Today - lastLogDate).Days;
+                                DateTime newEndDate = currentEndDate.AddDays(daysFrozen);
+                                worksheet.Cells[row, 6].Value = newEndDate.ToShortDateString();
+                                worksheet.Cells[row, 8].Value = "No";
+                                MessageBox.Show($"Client has been unfrozen. Extended by {daysFrozen} days.");
                             }
 
-                            worksheet.Cells[row, 7].Value = "Yes";
                             package.Save();
                             return true;
                         }
                     }
-                    MessageBox.Show($"Client with phone number {phoneNumber} not found for freezing.");
+
+                    MessageBox.Show($"Client with phone number {phoneNumber} not found.");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error freezing client: {ex.Message}");
+                MessageBox.Show($"Error toggling client freeze state: {ex.Message}");
                 return false;
             }
         }
@@ -429,62 +451,6 @@ namespace GymManagementSystem
             }
         }
 
-        public static bool UnfreezeClient(string phoneNumber)
-        {
-            try
-            {
-                Client client = Search(phoneNumber);
-                int daysFreezed = 0;
-                DateTime oldEndDate = DateTime.MinValue;
-                if (client != null)
-                {
-                    if (client.SubscriptionType == "3 Months") oldEndDate = client.SubscriptionStart.AddMonths(3);
-                    else oldEndDate = client.SubscriptionStart.AddMonths(6);
-                    daysFreezed = (client.SubscriptionEnd - oldEndDate).Days;
-                    var logs = GetLogs();
-                    var filtered = logs.Where(l => l.Phone == phoneNumber).ToList();
-                    DateTime lastlog = DateTime.Parse(filtered[filtered.Count - 1].Date);
-                    int actualFreezed = (DateTime.Today - lastlog).Days;
-                    client.SubscriptionEnd.AddDays(actualFreezed - daysFreezed);
-                }
-                FileInfo fileInfo = new FileInfo(excelPath);
-                if (!fileInfo.Exists)
-                {
-                    MessageBox.Show($"File not found: {excelPath}");
-                    return false;
-                }
-
-                using (var package = new ExcelPackage(fileInfo))
-                {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets["Clients"];
-                    if (worksheet == null)
-                    {
-                        MessageBox.Show("Worksheet 'Clients' not found.");
-                        return false;
-                    }
-
-                    for (int row = 2; row <= worksheet.Dimension.Rows; row++)
-                    {
-                        var cellValue = worksheet.Cells[row, 2].Value?.ToString();
-                        if (cellValue == phoneNumber)
-                        {
-                            worksheet.Cells[row, 6].Value = client.SubscriptionEnd.ToShortDateString();
-                            worksheet.Cells[row, 7].Value = "No";
-                            package.Save();
-                            return true;
-                        }
-                    }
-                    MessageBox.Show($"Client with phone number {phoneNumber} not found for unfreezing.");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error unfreezing client: {ex.Message}");
-                return false;
-            }
-        }
-
         public static bool AutoUnfreezeClients()
         {
             try
@@ -509,14 +475,14 @@ namespace GymManagementSystem
 
                     for (int row = 2; row <= worksheet.Dimension.Rows; row++)
                     {
-                        var frozenStatus = worksheet.Cells[row, 7].Value?.ToString();
+                        var frozenStatus = worksheet.Cells[row, 8].Value?.ToString();
                         var endDateStr = worksheet.Cells[row, 6].Value?.ToString();
 
                         if (frozenStatus == "Yes" && DateTime.TryParse(endDateStr, out DateTime endDate))
                         {
                             if (DateTime.Today >= endDate)
                             {
-                                worksheet.Cells[row, 7].Value = "No";
+                                worksheet.Cells[row, 8].Value = "No";
                                 changed = true;
                             }
                         }
@@ -632,7 +598,7 @@ namespace GymManagementSystem
                     {
                         if (Clientsworksheet.Cells[i, 2].Value?.ToString() == phone)
                         {
-                            Clientsworksheet.Cells[i, 8].Value = int.Parse(Clientsworksheet.Cells[i, 8].Value.ToString()) - 1;
+                            Clientsworksheet.Cells[i, 7].Value = int.Parse(Clientsworksheet.Cells[i, 7].Value.ToString()) - 1;
                             break;
                         }
                     }

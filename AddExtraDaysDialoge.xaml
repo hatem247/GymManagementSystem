@@ -35,9 +35,9 @@
             </ComboBox>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,23,73,-23">
-            <Button Content="Save" Width="60" Margin="5" Click="Save_Click" Background="Gold"/>
-            <Button Content="Cancel" Width="60" Margin="5" Click="Cancel_Click" Background="Gold"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,17,0,-17">
+            <Button Content="Save" FontSize="15" FontWeight="Bold" Width="80" Margin="5" Click="Save_Click" Background="Gold"/>
+            <Button Content="Cancel" FontSize="15" FontWeight="Bold" Width="80" Margin="5" Click="Cancel_Click" Background="Gold"/>
         </StackPanel>
     </Grid>
 </Window>

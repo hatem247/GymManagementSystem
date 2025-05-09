@@ -12,32 +12,11 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-            <TextBlock Text="Select days:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-            <ComboBox x:Name="DaysComboBox" Width="150">
-                <ComboBox.ItemContainerStyle>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="Black" Offset="0.0"/>
-                                    <GradientStop Color="Gold" Offset="1.0"/>
-                                </LinearGradientBrush>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </ComboBox.ItemContainerStyle>
-            </ComboBox>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,62,-14">
-            <Button Content="Save" Width="60" Margin="5" Click="Save_Click" Background="Gold"/>
-            <Button Content="Cancel" Width="60" Margin="5" Click="Cancel_Click" Background="Gold" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,37,0,0">
+            <Button Content="Confirm" Width="100" Height="30" FontSize="15" Margin="5" FontWeight="Bold" Click="Save_Click" Background="Gold"/>
+            <Button Content="Cancel" Width="100" Height="30" Margin="5" FontSize="15" FontWeight="Bold" Click="Cancel_Click" Background="Gold" />
         </StackPanel>
     </Grid>
 </Window>
