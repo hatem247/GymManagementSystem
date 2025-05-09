@@ -10,6 +10,7 @@ namespace GymManagementSystem
         {
             InitializeComponent();
             ExcelHelper.AutoUnfreezeClients();
+            ExcelHelper.RemoveBlankRowsFromSheets();
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)

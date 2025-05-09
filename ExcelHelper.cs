@@ -847,7 +847,6 @@ namespace GymManagementSystem
                 MessageBox.Show($"Error getting INcome: {ex.Message}");
             }
 
-            // Filter by selected date if provided
             if (selectedDate.HasValue)
             {
                 DateTime targetDate = selectedDate.Value.Date;
@@ -900,6 +899,63 @@ namespace GymManagementSystem
                 MessageBox.Show($"Error getting income: {ex.Message}");
             }
             return incomes;
+        }
+
+        public static void RemoveBlankRowsFromSheets()
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(excelPath);
+                if (!fileInfo.Exists)
+                {
+                    MessageBox.Show($"File not found: {excelPath}");
+                    return;
+                }
+
+                using (var package = new ExcelPackage(fileInfo))
+                {
+                    string[] sheetNames = { "Clients", "Logs", "Income" };
+
+                    foreach (var sheetName in sheetNames)
+                    {
+                        var worksheet = package.Workbook.Worksheets[sheetName];
+                        if (worksheet == null)
+                        {
+                            MessageBox.Show($"Sheet '{sheetName}' not found.");
+                            continue;
+                        }
+
+                        int row = 2;
+                        while (row <= worksheet.Dimension.End.Row)
+                        {
+                            bool isBlank = true;
+                            for (int col = 1; col <= worksheet.Dimension.End.Column; col++)
+                            {
+                                if (!string.IsNullOrWhiteSpace(worksheet.Cells[row, col].Text))
+                                {
+                                    isBlank = false;
+                                    break;
+                                }
+                            }
+
+                            if (isBlank)
+                            {
+                                worksheet.DeleteRow(row);
+                            }
+                            else
+                            {
+                                row++;
+                            }
+                        }
+                    }
+
+                    package.Save();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error while cleaning blank rows: {ex.Message}");
+            }
         }
 
     }
